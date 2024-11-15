@@ -15,10 +15,10 @@ export default function survey1Page() {
     };
 
     return(
-        <div className="bg-[#FFA500] h-screen min-w-[1227px] justify-items-center content-center">
-            <div className="w-[1227px]">
+        <div className="bg-[#FFA500] h-screen min-w-[76.6875rem] justify-items-center content-center">
+            <div className="w-[76.6875rem]">
                 <div className="flex flex-col items-center gap-20">
-                    <div className="flex flex-col gap-8 w-[1227px] pt-[70px] items-center">
+                    <div className="flex flex-col gap-8 w-[76.6875rem] pt-[4.375rem] items-center">
                         <div className="bg-[#FFFFFF33] rounded-lg py-2 px-5">
                             <p className="text-white">1 / 5</p>
                         </div>
@@ -34,85 +34,85 @@ export default function survey1Page() {
                     </div>
 
                     <div className="flex justify-center w-screen bg-white rounded-t-3xl items-start pt-20"
-                         style={{minHeight: 'calc(100vh - 315px)', minWidth: '1227px'}}>
+                         style={{minHeight: 'calc(100vh - 19.6875rem)', minWidth: '76.6875rem'}}>
                         <div className="flex gap-20 justify-between">
-                            <div className="flex justify-center items-center pl-[128px]">
+                            <div className="flex justify-center items-center pl-[8rem]">
                                 <div className="flex flex-col gap-8">
                                     <div className="flex gap-16">
-                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[320px] py-[1.125rem] px-[20px]
+                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
                                 ${selected === 'friend' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
                                              onClick={() => handleClick('friend')}>
                                             <div className="w-10/11 justify-items-center">
-                                                <p className="relative left-[100px] weight-700 text-[21px]">‍🧑‍🤝‍🧑
+                                                <p className="relative left-[6.25rem] weight-700 text-[1.3125rem]">‍🧑‍🤝‍🧑
                                                     친구</p>
                                             </div>
                                             <div className="w-1/11">
                                                 <img src={`${selected === 'friend'
                                                     ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                     className="w-[28px] h-[28px]" alt="v"/>
+                                                     className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                             </div>
                                         </div>
 
-                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[320px] py-[1.125rem] px-[20px]
+                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
                                 ${selected === 'alone' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
                                              onClick={() => handleClick('alone')}>
                                             <div className="w-10/11 justify-items-center">
-                                                <p className="relative left-[100px] weight-700 text-[21px]">🕺 혼자</p>
+                                                <p className="relative left-[6.25rem] weight-700 text-[1.3125rem]">🕺 혼자</p>
                                             </div>
                                             <div className="w-1/11">
                                                 <img src={`${selected === 'alone'
                                                     ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                     className="w-[28px] h-[28px]" alt="v"/>
+                                                     className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="flex gap-16">
-                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[320px] py-[1.125rem] px-[20px]
+                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
                                 ${selected === 'family' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
                                              onClick={() => handleClick('family')}>
                                             <div className="w-10/11 justify-items-center">
-                                                <p className="relative left-[100px] weight-700 text-[21px]">👫️ 가족</p>
+                                                <p className="relative left-[6.25rem] weight-700 text-[1.3125rem]">👫️ 가족</p>
                                             </div>
                                             <div className="w-1/11">
                                                 <img src={`${selected === 'family'
                                                     ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                     className="w-[28px] h-[28px]" alt="v"/>
+                                                     className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                             </div>
                                         </div>
 
-                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[320px] py-[1.125rem] px-[20px]
+                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
                                 ${selected === 'couple' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
                                              onClick={() => handleClick('couple')}>
                                             <div className="w-10/11 justify-items-center">
-                                                <p className="relative left-[100px] weight-700 text-[21px]">💑 커플</p>
+                                                <p className="relative left-[6.25rem] weight-700 text-[1.3125rem]">💑 커플</p>
                                             </div>
                                             <div className="w-1/11">
                                                 <img src={`${selected === 'couple'
                                                     ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                     className="w-[28px] h-[28px]" alt="v"/>
+                                                     className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="flex justify-start w-full gap-16">
-                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[320px] py-[1.125rem] px-[20px]
+                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
                                 ${selected === 'organization' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
                                              onClick={() => handleClick('organization')}>
                                             <div className="w-10/11 justify-items-center">
-                                                <p className="relative left-[90px] weight-700 text-[21px]">👬👭 단체</p>
+                                                <p className="relative left-[5.625rem] weight-700 text-[1.3125rem]">👬👭 단체</p>
                                             </div>
                                             <div className="w-1/11">
                                                 <img src={`${selected === 'organization'
                                                     ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                     className="w-[28px] h-[28px]" alt="v"/>
+                                                     className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="w-[48px] content-center">
+                            <div className="w-[3rem] content-center">
                                 <img className="w-12 h-12 cursor-pointer"
                                      onClick={() => router.push('/survey2')}
                                      src="/images/icon/next_btn.png" alt="다음"/>
