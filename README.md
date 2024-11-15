@@ -2,6 +2,8 @@
 
 [![Contributors](https://img.shields.io/badge/contributors-4-brightgreen)](#-기여자-contributors)  
 
+<img width="1285" alt="스크린샷 2024-11-15 20 55 06" src="https://github.com/user-attachments/assets/54bb6ca3-677c-4873-96bd-4e7763733d83">
+
 이 프로젝트는 경주 지역의 관광지를 개인의 선호에 맞게 추천해주는 웹 서비스입니다. 사용자에게 경주의 다양한 명소를 기반으로 맞춤형 여행 코스를 제공합니다.  
 
 ---
