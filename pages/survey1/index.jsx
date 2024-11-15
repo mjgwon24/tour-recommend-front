@@ -27,7 +27,7 @@ export default function survey1Page() {
                             <p className="text-center text-[2.75rem] weight-700 text-white">
                                 누구와 같이 왔나요?
                             </p>
-                            <p className="text-center weight-700 text-white">
+                            <p className="text-center weight-500 text-white">
                                 여행을 함께하는 사람을 알려주세요!
                             </p>
                         </div>
@@ -113,7 +113,8 @@ export default function survey1Page() {
                             </div>
 
                             <div className="w-[3rem] content-center">
-                                <img className="w-12 h-12 cursor-pointer"
+                                <img className={`w-12 h-12 cursor-pointer
+                                ${selected === null ? 'hidden' : 'block'}`}
                                      onClick={() => router.push('/survey2')}
                                      src="/images/icon/next_btn.png" alt="다음"/>
                             </div>
