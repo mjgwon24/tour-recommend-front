@@ -1,8 +1,12 @@
+import {useRouter} from 'next/router';
+
 /**
  * home ui
  * @author 권민지
  */
 export default function homePage() {
+    const router = useRouter();
+
     return(
         <div className="bg-[#FFA500] h-screen justify-items-center content-center">
             <div className="flex flex-col w-[81.25rem] gap-24 pb-[5.625rem]">
@@ -19,6 +23,7 @@ export default function homePage() {
                 <div className="flex flex-col items-center gap-14">
                     <div className="cursor-pointer hover:bg-[#f3efe7] flex items-center gap-[0.375rem] bg-white rounded-[0.875rem] py-4 px-5"
                          style={{boxShadow: "0rem 0.8728125rem 1.6625rem 0.083125rem #C7760D"}}
+                         onClick={() => router.push('/survey1')}
                     >
                         <p className="text-[1.3125rem] text-[#FF7700] weight-700">맞춤형 관광 코스 제안받기</p>
                         <img src="/images/icon/vector_right_orange.png"
