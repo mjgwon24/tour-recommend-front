@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {router} from 'next/client';
 
 /**
- * Survey1 Page
+ * Survey3 Page
  * @since 2024.11.16
  * @author 권민지
  */
@@ -40,26 +40,26 @@ export default function survey3Page() {
                                 <div className="flex flex-col gap-8">
                                     <div className="flex gap-16">
                                         <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'friend' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                             onClick={() => handleClick('friend')}>
+                                ${selected === 'rest' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                             onClick={() => handleClick('rest')}>
                                             <div className="w-10/11 justify-items-center">
                                                 <p className="relative left-[6.7rem] weight-700 text-[1.3125rem]">🌳️ 휴식</p>
                                             </div>
                                             <div className="w-1/11">
-                                                <img src={`${selected === 'friend'
+                                                <img src={`${selected === 'rest'
                                                     ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
                                                      className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                             </div>
                                         </div>
 
                                         <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'alone' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                             onClick={() => handleClick('alone')}>
+                                ${selected === 'activity' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                             onClick={() => handleClick('activity')}>
                                             <div className="w-10/11 justify-items-center">
                                                 <p className="relative left-[5.5rem] weight-700 text-[1.3125rem]">🚴‍♀️ 액티비티</p>
                                             </div>
                                             <div className="w-1/11">
-                                                <img src={`${selected === 'alone'
+                                                <img src={`${selected === 'activity'
                                                     ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
                                                      className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                             </div>
@@ -68,26 +68,26 @@ export default function survey3Page() {
 
                                     <div className="flex gap-16">
                                         <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'family' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                             onClick={() => handleClick('family')}>
+                                ${selected === 'cultural-tour' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                             onClick={() => handleClick('cultural-tour')}>
                                             <div className="w-10/11 justify-items-center">
                                                 <p className="relative left-[5.5rem] weight-700 text-[1.3125rem]">🏛️ 문화 탐방</p>
                                             </div>
                                             <div className="w-1/11">
-                                                <img src={`${selected === 'family'
+                                                <img src={`${selected === 'cultural-tour'
                                                     ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
                                                      className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                             </div>
                                         </div>
 
                                         <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'couple' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                             onClick={() => handleClick('couple')}>
+                                ${selected === 'date' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                             onClick={() => handleClick('date')}>
                                             <div className="w-10/11 justify-items-center">
                                                 <p className="relative left-[6.25rem] weight-700 text-[1.3125rem]">❤️ 데이트</p>
                                             </div>
                                             <div className="w-1/11">
-                                                <img src={`${selected === 'couple'
+                                                <img src={`${selected === 'date'
                                                     ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
                                                      className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                             </div>
