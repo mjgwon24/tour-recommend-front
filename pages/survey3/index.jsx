@@ -99,7 +99,7 @@ export default function survey3Page() {
                             <div className="w-[3rem] content-center">
                                 <img className={`w-12 h-12 cursor-pointer
                                 ${selected === null ? 'hidden' : 'block'}`}
-                                     onClick={() => router.push('/survey2')}
+                                     onClick={() => router.push('/survey4')}
                                      src="/images/icon/next_btn.png" alt="다음"/>
                             </div>
                         </div>
