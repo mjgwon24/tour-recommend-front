@@ -2,14 +2,15 @@ import {useRouter} from 'next/router';
 
 /**
  * home ui
+ * @since 2024.11.15
  * @author 권민지
  */
 export default function homePage() {
     const router = useRouter();
 
     return(
-        <div className="bg-[#FFA500] h-screen justify-items-center content-center">
-            <div className="flex flex-col w-[81.25rem] gap-24 pb-[5.625rem]">
+        <div className="bg-[#FFA500] w-screen h-screen min-w-[1227px] justify-items-center content-center">
+            <div className="flex flex-col w-[1227px] gap-24 pb-[5.625rem]">
                 <div className="flex flex-col items-center gap-5">
                     <p className="text-center text-[2.75rem] weight-700 text-white leading-[3.375rem]">
                         가족, 친구, 연인과 함께하는 경주 탐방!
