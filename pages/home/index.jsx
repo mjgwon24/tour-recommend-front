@@ -9,8 +9,8 @@ export default function homePage() {
     const router = useRouter();
 
     return(
-        <div className="bg-[#FFA500] w-screen h-screen min-w-[76.6875rem] justify-items-center content-center">
-            <div className="flex flex-col w-[76.6875rem] gap-24 pb-[5.625rem]">
+        <div className="flex flex-col bg-[#FFA500] w-screen h-screen min-w-[76.6875rem] min-h-[38.875rem] items-center justify-center content-center">
+            <div className="flex flex-col w-[76.6875rem] gap-24 pb-[1rem]">
                 <div className="flex flex-col items-center gap-5">
                     <p className="text-center text-[2.75rem] weight-700 text-white leading-[3.375rem]">
                         가족, 친구, 연인과 함께하는 경주 탐방!
