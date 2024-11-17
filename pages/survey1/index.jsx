@@ -15,7 +15,7 @@ export default function survey1Page() {
     };
 
     return(
-        <div className="bg-[#FFA500] h-screen min-w-[76.6875rem] justify-items-center content-center">
+        <div className="flex flex-col items-center bg-[#FFA500] h-screen min-w-[76.6875rem] justify-items-center content-center">
             <div className="w-[76.6875rem]">
                 <div className="flex flex-col items-center gap-20">
                     <div className="flex flex-col gap-8 w-[76.6875rem] pt-[4.375rem] items-center">
