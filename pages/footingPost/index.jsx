@@ -33,7 +33,7 @@ export default function footingPostPage() {
                     </div>
                     <div className="flex flex-col">
                         <label className="text-[23.94px] weight-700 pb-1">인스타그램 계정 인증</label>
-                        <textarea type="text" className="rounded-[14.63px] w-[859.18px] h-[347.795px] bg-[#F1F1F1] px-[19.28px] py-[10px]" placeholder="제목을 입력해주세요"></textarea>
+                        <textarea type="text" className="rounded-[14.63px] w-[859.18px] h-[347.795px] bg-[#F1F1F1] px-[19.28px] py-[10px]" placeholder="내용을 입력해주세요"></textarea>
                     </div>
                     <div className="flex flex-col">
                         <label className="text-[23.94px] weight-700 pb-1">사진 첨부</label>
