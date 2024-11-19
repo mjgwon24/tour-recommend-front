@@ -5,7 +5,7 @@
  */
 export default function eventPage() {
     return(
-        <div className="flex flex-col items-center min-w-[78rem] justify-items-center content-center pb-[2.5rem]"
+        <div className="flex flex-col items-center min-h-screen min-w-[78rem] justify-items-center content-center pb-[2.5rem]"
         style={{background: "linear-gradient(179deg, rgba(255, 165, 0, 0.50) 18.32%, rgba(255, 77, 1, 0.50) 120.72%), #FFA500"}}>
             <div className="flex flex-col items-center pt-[3.75rem]">
                 <div>
