@@ -1,3 +1,5 @@
+import {router} from "next/client";
+
 /**
  * Event page
  * @singce 2024.11.19
@@ -124,6 +126,7 @@ export default function eventPage() {
 
                     <div className="cursor-pointer hover:bg-[#FFEFDF] flex items-center gap-3 border-[0.1875rem] border-[#FF6102] rounded-[0.875rem] px-[2.8125rem] py-[1.25rem]"
                          style={{boxShadow: "0px 5px 22px 1px rgba(255, 100, 1, 0.40)"}}
+                         onClick={() => router.push('/home')}
                     >
                         <p className="text-[1.875rem] text-[#FF6102] weight-700">맞춤형 관광 코스 제안받기</p>
                         <img src="/images/icon/vector_right_deep_orange.png" className="w-[1.5625rem]"/>
@@ -144,7 +147,9 @@ export default function eventPage() {
 
                     <div className="flex justify-center items-center w-full">
                         <div className="cursor-pointer hover:bg-[#FAFAFA] flex justify-center bg-white rounded-[0.875rem] px-[2.1875rem] py-[0.625rem]"
-                             style={{boxShadow: "0px 2.66px 6.65px 0px rgba(0, 0, 0, 0.35)"}}>
+                             style={{boxShadow: "0px 2.66px 6.65px 0px rgba(0, 0, 0, 0.35)"}}
+                             onClick={() => router.push('/footingPost')}
+                        >
                             <p className="weight-600">인증하러 가기</p>
                         </div>
                     </div>
