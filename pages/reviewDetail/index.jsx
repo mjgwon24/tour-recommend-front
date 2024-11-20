@@ -12,15 +12,12 @@ import { AiOutlineLike } from "react-icons/ai";
 export default function reviewDetailPage() {
     const router = useRouter();
 
-    const [openModal, setModal] = useState(false);
-    const toggleModal = () => {
-        setModal(!openModal)
-    }
+
 
     return(
         <>
 
-            <div className="flex flex-col gap-[1.28875rem] bg-[#FFA500]">
+            <div className="flex flex-col gap-[1.28875rem] bg-[#FFA500] min-w-[76.6875rem]">
                 <div className="flex flex-col items-center gap-1 pt-[4.15625rem] pb-[1.113125rem]">
                     <p className="text-center text-[2.0625rem] weight-700 text-white leading-[3.375rem]">
                         경주 맞춤형 관광지 코스 제공 서비스
@@ -56,8 +53,8 @@ export default function reviewDetailPage() {
                         </div>
                         
                     </div>
-                    <div className="flex flex-col w-full gap-[3.11125rem] bg-[#ffffff] rounded-t-[1.33125rem] px-[8.354375rem] pb-[18.370625rem] pt-[3.075625rem] min-w-[76.6875rem]" onClick={()=>{toggleModal}}>
-                        <div className='flex flex-col rounded-[0.9125rem] px-[2.473125rem] py-[1.75rem] min-w-[70rem]'>
+                    <div className="flex flex-col w-full gap-[3.11125rem] bg-[#ffffff] rounded-t-[1.33125rem] px-[8.354375rem] pb-[18.370625rem] pt-[3.075625rem]">
+                        <div className='flex flex-col rounded-[0.9125rem] px-[2.473125rem] py-[1.75rem] min-w-[50rem]'>
                             <div className='flex justify-between w-full gap-2 cursor-pointer'>
                                 <div className='flex gap-7'>
                                     <div className='flex flex-col justify-center text-[#FFA500]'>식당 후기</div>
