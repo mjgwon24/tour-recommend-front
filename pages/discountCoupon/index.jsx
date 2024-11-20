@@ -31,7 +31,8 @@ export default function discountCouponPage() {
                             </div>
                             <div className='text-base font-bold'>어디 국밥집 110% 할인</div>
                         </div>
-                        <p className='w-[21.9865625rem]'>위치: 경상북도 경주시 ... 어디고 어쩌고어디고 어쩌고어디고 어쩌고어디고 어쩌고</p>
+                        <p className='w-[21.9865625rem]'>위치: 경상북도 경주시 ... 어디고 어쩌고</p>
+                        <p className='w-[21.9865625rem] text-[#777]'>이 매장은 저쩌고</p>
 
                         <div className='flex justify-center mt-[2.66rem]'>
                             <div className='flex flex-col justify-center bg-[#F3F3F3] rounded-2xl w-[21.11375rem] h-[4.2809375rem] px-[2.95125rem] py-[0.62375rem] text-center text-[#272727] text-[1rem]'>
