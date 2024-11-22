@@ -49,7 +49,7 @@ export default function homePage() {
                                  className="w-[1rem] h-[1rem]" alt="->"/>
 
                             <div className="bg-white rounded-[0.875rem] w-[8.3125rem] h-[8.3125rem] content-center text-center">
-                                <p className="text-[#FFA500] text-[26px] weight-700">?</p>
+                                <p className="text-[#FFA500] text-[1.625rem] weight-700">?</p>
                             </div>
 
                             <img src="/images/icon/vector_right_brown.png"
