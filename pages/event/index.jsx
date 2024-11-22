@@ -12,41 +12,41 @@ export default function eventPage() {
             <div className="flex flex-col items-center pt-[3.75rem]">
                 <div>
                     <img src="/images/icon/stress_point_three.png"
-                         className="w-[140px] ml-2.5"/>
+                         className="w-[8.75rem] ml-2.5"/>
                 </div>
                 <div className="h-[0]">
                     <img src="/images/icon/stress_line.png"
-                         className="w-[320px] ml-2.5 relative top-[8px] left-[70px] z-10"/>
+                         className="w-[20rem] ml-2.5 relative top-[0.5rem] left-[4.375rem] z-10"/>
                 </div>
                 <div className="flex items-end gap-5">
-                    <p className="text-white text-[66px] weight-800"
+                    <p className="text-white text-[4.125rem] weight-800"
                        style={{textShadow: "0px 3.325px 2.66px rgba(0, 0, 0, 0.30)"}}
                     >나에게</p>
-                    <p className="text-[#3E2B0A] text-[75px] weight-800"
+                    <p className="text-[#3E2B0A] text-[4.6875rem] weight-800"
                        style={{textShadow: "0px 3.325px 2.66px rgba(0, 0, 0, 0.30)"}}
                     >딱!</p>
-                    <p className="text-white text-[66px] weight-800"
+                    <p className="text-white text-[4.125rem] weight-800"
                        style={{textShadow: "0px 3.325px 2.66px rgba(0, 0, 0, 0.30)"}}
                     >맞는</p>
-                    <p className="text-[75px] weight-800 relative z-20"
+                    <p className="text-[4.6875rem] weight-800 relative z-20"
                        style={{textShadow: "0px 3.325px 2.66px rgba(0, 0, 0, 0.30)"}}
                     >맞춤형</p>
-                    <p className="text-[75px] weight-800 relative z-20"
+                    <p className="text-[4.6875rem] weight-800 relative z-20"
                        style={{textShadow: "0px 3.325px 2.66px rgba(0, 0, 0, 0.30)"}}
                     >코스</p>
-                    <p className="text-white text-[66px] weight-800"
+                    <p className="text-white text-[4.125rem] weight-800"
                        style={{textShadow: "0px 3.325px 2.66px rgba(0, 0, 0, 0.30)"}}
                     >추천받고,</p>
                 </div>
 
-                <div className="flex items-end gap-5 relative top-[-15px]">
-                    <p className="text-white text-[66px] weight-800"
+                <div className="flex items-end gap-5 relative top-[-0.9375rem]">
+                    <p className="text-white text-[4.125rem] weight-800"
                        style={{textShadow: "0px 3.325px 2.66px rgba(0, 0, 0, 0.30)"}}
                     >지역페이</p>
-                    <p className="text-[#3E2B0A] text-[75px] weight-800"
+                    <p className="text-[#3E2B0A] text-[4.6875rem] weight-800"
                        style={{textShadow: "0px 3.325px 2.66px rgba(0, 0, 0, 0.30)"}}
                     >경품</p>
-                    <p className="text-white text-[66px] weight-800"
+                    <p className="text-white text-[4.125rem] weight-800"
                        style={{textShadow: "0px 3.325px 2.66px rgba(0, 0, 0, 0.30)"}}
                     >받아가자!</p>
                 </div>
@@ -73,7 +73,7 @@ export default function eventPage() {
                 </div>
             </div>
             <div className="flex flex-col items-center gap-16 bg-white rounded-[1.375rem] w-[75rem] mt-[1.25rem] px-[3.125rem] py-[4.375rem]">
-                <div className="flex flex-col items-center gap-8 mb-[20px]">
+                <div className="flex flex-col items-center gap-8 mb-[1.25rem]">
                     <div className="flex gap-4">
                         <img src="/images/icon/instagram_icon.png" className="w-[2.8125rem] h-[2.8125rem]"/>
                         <p className="text-[2rem] weight-700">태그 이벤트 참여 방법</p>
@@ -133,7 +133,7 @@ export default function eventPage() {
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-4 w-[56.25rem] bg-[#F2F2F2] rounded-[0.875rem] px-[40px] py-[1.25rem]">
+                <div className="flex flex-col gap-4 w-[56.25rem] bg-[#F2F2F2] rounded-[0.875rem] px-[2.5rem] py-[1.25rem]">
                     <div className="flex justify-start gap-1.5">
                         <p className="text-[#006EFF] text-[1.5rem] weight-700">🔍 태그 인증?</p>
                         <p className="text-[1.5rem] weight-700">그게 뭐죠?</p>

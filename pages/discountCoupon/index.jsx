@@ -20,8 +20,10 @@ export default function discountCouponPage() {
     return(
         <div className='w-full'>
         {openModal &&
-            <div className='fixed top-0 left-0 w-full h-full bg-[#333333]/60 flex justify-center items-center z-99'>
-                    <div className='w-[42.809375rem] h-[30.09125rem] bg-white shadow-lg py-2 rounded-md flex flex-col px-[10.421875rem]' onClick={toggleModal}>
+            <div className='fixed top-0 left-0 w-full h-full bg-[#333333]/60 flex justify-center items-center z-99'
+                 onClick={toggleModal}>
+                    <div className='w-[42.809375rem] h-[30.09125rem] bg-white shadow-lg py-2 rounded-md flex flex-col px-[10.421875rem]'
+                         onClick={(e) => e.stopPropagation()}>
                         <div className='flex justify-center pt-[2.451875rem]'>
                             <div className='bg-[#999999] w-[8.3125rem] h-[8.3125rem] rounded-full'></div>
                         </div>
@@ -45,22 +47,40 @@ export default function discountCouponPage() {
 
             <div className="flex flex-col items-center justify-items-center w-full min-h-screen min-w-[76.6rem] bg-[#FFA500]">
                 <div className="flex flex-col items-center">
-                    <h1 className="text-[32px] weight-700 text-[white] pt-[66.5px]">경주 맞춤형 관광지 코스 제공 서비스</h1>
-                    <div className="flex gap-[21.95px] pt-[38.43px] pb-[34.52px] weight-700 text-[#FFA500]">
-                        <button className="rounded-[14.63px] weight-700 bg-[white] px-[27.93px] py-[9.52px] hover:bg-[#F18304] hover:text-[white]">SNS 인증게시판</button>
-                        <button className="rounded-[14.63px] weight-700 bg-[white] px-[51.87px] py-[9.52px] hover:bg-[#F18304] hover:text-[white]">할인쿠폰</button>
-                        <button className="rounded-[14.63px] weight-700 bg-[white] px-[33.25px] py-[9.52px] hover:bg-[#F18304] hover:text-[white]">코스 모두 보기</button>
-                        <button className="rounded-[14.63px] weight-700 bg-[white] px-[69.83px] py-[9.52px] hover:bg-[#F18304] hover:text-[white]">후기</button>
+                    <h1 className="text-[2rem] weight-700 text-[white] pt-[4.15625rem]">경주 맞춤형 관광지 코스 제공 서비스</h1>
+                    <div className="flex gap-[1.371875rem] pt-[2.401875rem] pb-[2.1575rem] weight-700 text-[#FFA500]">
+                        <button
+                            className="rounded-[0.914375rem] weight-700 bg-[white] px-[1.745625rem] py-[0.595rem] hover:bg-[#F18304] hover:text-[white]"
+                            onClick={() => router.push('/footingPost')}>SNS 인증게시판
+                        </button>
+                        <button
+                            className="rounded-[0.914375rem] weight-700 px-[3.241875rem] py-[0.595rem] bg-[#F18304] text-[white]"
+                            onClick={() => router.push('/discountCoupon')}>할인쿠폰
+                        </button>
+                        <button
+                            className="rounded-[0.914375rem] weight-700 bg-[white] px-[2.078125rem] py-[0.595rem] hover:bg-[#F18304] hover:text-[white]"
+                            onClick={() => router.push('/allCourses')}>코스 모두 보기
+                        </button>
+                        <button
+                            className="rounded-[0.914375rem] weight-700 bg-[white] px-[4.364375rem] py-[0.595rem] hover:bg-[#F18304] hover:text-[white]"
+                            onClick={() => router.push('/review')}>후기
+                        </button>
                     </div>
                 </div>
-                <div className="w-full min-h-screen flex flex-col gap-[2.410625rem] bg-[#ffffff] rounded-t-[0.875rem] px-[8.354375rem] pt-[6.026875rem]">
+                <div
+                    className="w-full min-h-screen flex flex-col gap-[2.410625rem] bg-[#ffffff] rounded-t-3xl px-[8.354375rem] pt-[6.026875rem]">
                     <div className='flex gap-[1.786875rem] justify-center'>
-                        <div className={`flex justify-between border border-solid border-[#D9D9D9] rounded-[0.914375rem] w-[30.465313125rem] h-[8.14625rem] ${openModal ? '' : 'cursor-pointer hover:opacity-80'}`} onClick={()=>{toggleModal();}}>
+                        <div
+                            className={`flex justify-between border border-solid border-[#D9D9D9] rounded-[0.914375rem] w-[30.465313125rem] h-[8.14625rem] ${openModal ? '' : 'cursor-pointer hover:opacity-80'}`}
+                            onClick={() => {
+                                toggleModal();
+                            }}>
                             <div className='flex flex-col justify-center px-[1.07625rem]'>
                                 <div className='bg-[#FF0000] w-[4.571875rem] h-[4.571875rem] rounded-full'></div>
                             </div>
                             <div className='flex flex-col justify-center w-[17.733125rem]'>
-                                <div className='flex flex-col justify-center border border-solid border-[#FFA500] rounded-lg w-[2.576875rem] h-[1.413125rem] text-center text-[#FFA500] text-[0.75rem]'>
+                                <div
+                                    className='flex flex-col justify-center border border-solid border-[#FFA500] rounded-lg w-[2.576875rem] h-[1.413125rem] text-center text-[#FFA500] text-[0.75rem]'>
                                     식품
                                 </div>
                                 <div className='text-base font-bold'>어디 국밥집 110% 할인</div>

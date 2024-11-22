@@ -64,7 +64,7 @@ export default function analyzingPage() {
                          style={{minHeight: 'calc(100vh - 19.6875rem)', minWidth: '76.6875rem'}}>
                         <div className="flex gap-10 justify-between pl-[3.375rem]">
                             <div>
-                                <div className="h-[22.8rem] w-[7px] bg-[#FFEFD3] mt-[0.8125rem] ml-[1.2rem] z-0"/>
+                                <div className="h-[22.8rem] w-[0.4375rem] bg-[#FFEFD3] mt-[0.8125rem] ml-[1.2rem] z-0"/>
 
                                 <div className="relative z-30">
                                     <img
@@ -78,20 +78,20 @@ export default function analyzingPage() {
                                 </div>
 
                                 <div>
-                                    <img className="w-[22px] relative top-[-411px] left-[11px] z-20"
+                                    <img className="w-[1.375rem] relative top-[-25.6875rem] left-[0.6875rem] z-20"
                                          src={`${currentStep > 0 ? "/images/icon/waiting_circle_after.png" : "/images/icon/waiting_circle_before.png"}`}/>
-                                    <img className="w-[22px] relative top-[-351px] left-[11px] z-20"
+                                    <img className="w-[1.375rem] relative top-[-21.9375rem] left-[0.6875rem] z-20"
                                          src={`${currentStep > 1 ? "/images/icon/waiting_circle_after.png" : "/images/icon/waiting_circle_before.png"}`}/>
-                                    <img className="w-[22px] relative top-[-285px] left-[11px] z-20"
+                                    <img className="w-[1.375rem] relative top-[-17.8125rem] left-[0.6875rem] z-20"
                                          src={`${currentStep > 2 ? "/images/icon/waiting_circle_after.png" : "/images/icon/waiting_circle_before.png"}`}/>
-                                    <img className="w-[22px] relative top-[-219px] left-[11px] z-20"
+                                    <img className="w-[1.375rem] relative top-[-13.6875rem] left-[0.6875rem] z-20"
                                          src={`${currentStep > 3 ? "/images/icon/waiting_circle_after.png" : "/images/icon/waiting_circle_before.png"}`}/>
-                                    <img className="w-[22px] relative top-[-155px] left-[11px] z-20"
+                                    <img className="w-[1.375rem] relative top-[-9.6875rem] left-[0.6875rem] z-20"
                                          src={`${currentStep > 4 ? "/images/icon/waiting_circle_after.png" : "/images/icon/waiting_circle_before.png"}`}/>
                                 </div>
 
                                 <div className="h-0">
-                                    <div className="relative w-[7px] bg-[#FFA500] z-10 top-[-520px] left-[19px] transition-all duration-700"
+                                    <div className="relative w-[0.4375rem] bg-[#FFA500] z-10 top-[-32.5rem] left-[1.1875rem] transition-all duration-700"
                                          style={{
                                              height: `${(currentStep * 83) + 2}px`
                                          }}
