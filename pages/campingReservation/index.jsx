@@ -51,7 +51,7 @@ export default function campingReservationPage() {
                             <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
                                 <div className='flex gap-7'>
                                     <div className='flex flex-col justify-center'>
-                                        <img src="/images/campingThumb/thumb1.png"
+                                        <img src="/images/campingThumbs/thumb1.png"
                                              className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
                                     </div>
                                     <div className='flex justify-start w-auto'>
@@ -79,7 +79,7 @@ export default function campingReservationPage() {
                             <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
                                 <div className='flex gap-7'>
                                     <div className='flex flex-col justify-center'>
-                                        <img src="/images/campingThumb/thumb2.png"
+                                        <img src="/images/campingThumbs/thumb2.png"
                                              className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
                                     </div>
                                     <div className='flex justify-start w-auto'>
@@ -107,7 +107,7 @@ export default function campingReservationPage() {
                             <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
                                 <div className='flex gap-7'>
                                     <div className='flex flex-col justify-center'>
-                                        <img src="/images/campingThumb/thumb3.png"
+                                        <img src="/images/campingThumbs/thumb3.png"
                                              className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
                                     </div>
                                     <div className='flex justify-start w-auto'>
@@ -135,7 +135,7 @@ export default function campingReservationPage() {
                             <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
                                 <div className='flex gap-7'>
                                     <div className='flex flex-col justify-center'>
-                                        <img src="/images/campingThumb/thumb4.png"
+                                        <img src="/images/campingThumbs/thumb4.png"
                                              className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
                                     </div>
                                     <div className='flex justify-start w-auto'>
@@ -163,7 +163,7 @@ export default function campingReservationPage() {
                             <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
                                 <div className='flex gap-7'>
                                     <div className='flex flex-col justify-center'>
-                                        <img src="/images/campingThumb/thumb5.png"
+                                        <img src="/images/campingThumbs/thumb5.png"
                                              className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
                                     </div>
                                     <div className='flex justify-start w-auto'>
