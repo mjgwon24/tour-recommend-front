@@ -5,22 +5,17 @@ import {useState,useRef,React} from 'react';
 
 export default function quoteTalkPage() {
 
-    const [certMode, setCertMode] = useState("room");
     const [placeholder, setPlaceholder] = useState(true);
     const [text,setText] = useState("");
     const inputRef = useRef(null);
     const router = useRouter();
 
-    const [files, setFiles] = useState([]);
 
     const handleTextarea = (e)=>{
         setPlaceholder(false);
         inputRef.current.focus();
     }
-    const handleFileChange = (event) => {
-        const selectedFiles = Array.from(event.target.files);
-        setFiles(selectedFiles);
-    };
+
 
     return (
         <div className="flex flex-col bg-[#FFA500]">
