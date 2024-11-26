@@ -93,7 +93,7 @@ export default function ingredientsDeliveryPage() {
                                     </div>
                                 </div>
                                 <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] weight-500">남산채소</p>
+                                    <p className="text-[0.9rem] text-[#404040] text-end weight-500">남산채소</p>
                                     <p className="text-[1.05rem] weight-800">1,490원</p>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@ export default function ingredientsDeliveryPage() {
                                     </div>
                                 </div>
                                 <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] weight-500">남산채소</p>
+                                    <p className="text-[0.9rem] text-[#404040] text-end weight-500">남산채소</p>
                                     <p className="text-[1.05rem] weight-800">1,490원</p>
                                 </div>
                             </div>
@@ -149,7 +149,7 @@ export default function ingredientsDeliveryPage() {
                                     </div>
                                 </div>
                                 <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] weight-500">남산채소</p>
+                                    <p className="text-[0.9rem] text-[#404040] text-end weight-500">남산채소</p>
                                     <p className="text-[1.05rem] weight-800">1,490원</p>
                                 </div>
                             </div>
@@ -177,7 +177,7 @@ export default function ingredientsDeliveryPage() {
                                     </div>
                                 </div>
                                 <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] weight-500">남산채소</p>
+                                    <p className="text-[0.9rem] text-[#404040] text-end weight-500">남산채소</p>
                                     <p className="text-[1.05rem] weight-800">1,490원</p>
                                 </div>
                             </div>
@@ -205,7 +205,7 @@ export default function ingredientsDeliveryPage() {
                                     </div>
                                 </div>
                                 <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] weight-500">남산채소</p>
+                                    <p className="text-[0.9rem] text-[#404040] text-end weight-500">남산채소</p>
                                     <p className="text-[1.05rem] weight-800">1,490원</p>
                                 </div>
                             </div>
