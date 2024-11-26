@@ -1,6 +1,9 @@
 import React from "react";
+import {useRouter} from "next/router";
 
 export default function accommodateReservationDetailPage() {
+    const router = useRouter();
+
     return (
         <div className="flex flex-col items-center min-h-screen min-w-[76.6rem] bg-[#FFA500]">
             {/* 상단 메뉴 */}
