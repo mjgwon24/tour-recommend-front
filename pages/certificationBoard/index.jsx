@@ -3,13 +3,13 @@ import { RiImageAddLine } from "@react-icons/all-files/ri/RiImageAddLine"
 import { TiDelete } from "@react-icons/all-files/ti/TiDelete";
 import {useState,useRef,React} from 'react';
 
-
 export default function certificationBoardPage() {
 
     const [certMode, setCertMode] = useState("room");
     const [placeholder, setPlaceholder] = useState(true);
     const [text,setText] = useState("");
     const inputRef = useRef(null);
+    const router = useRouter();
 
     const [files, setFiles] = useState([]);
 
@@ -51,7 +51,7 @@ export default function certificationBoardPage() {
                     </button>
                     <button
                         className="rounded-[0.914375rem] weight-700 bg-[white] w-[10rem] py-[0.595rem] hover:bg-[#F18304] hover:text-[white]"
-                        onClick={() => router.push('/allCourses')}>예약 조회
+                        onClick={() => router.push('/reservationAuth')}>예약 조회
                     </button>
                 </div>
             </div>
