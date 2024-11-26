@@ -68,7 +68,7 @@ export default function accommodateReservationDetailPage() {
                         </button>
                         <button
                             className="rounded-[0.914375rem] weight-700 bg-[white] w-[10rem] py-[0.595rem] hover:bg-[#F18304] hover:text-[white]"
-                            onClick={() => router.push('/allCourses')}>예약 조회
+                            onClick={() => router.push('/reservationAuth')}>예약 조회
                         </button>
                     </div>
                 </div>
