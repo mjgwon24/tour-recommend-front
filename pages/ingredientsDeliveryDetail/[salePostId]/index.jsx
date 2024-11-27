@@ -6,7 +6,7 @@ import axios from "axios";
 export default function ingredientsDeliveryDetailPage() {
     const router = useRouter();
     
-    const fetchData = async () => {
+    const fetchSalePostData = async () => {
         const response = await axios.get(`http://localhost:8081/sale/posts/${router.query.salePostId}`);
         return response.data;
       };
@@ -16,8 +16,8 @@ export default function ingredientsDeliveryDetailPage() {
     
     // UseQuery
     const { data, error, isLoading } = useQuery({
-        queryKey: ['posts'],
-        queryFn: fetchData,
+        queryKey: ['salePosts'],
+        queryFn: fetchSalePostData,
         select: (data) => data.data,
     });
 
