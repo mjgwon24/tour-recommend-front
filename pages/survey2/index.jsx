@@ -15,7 +15,7 @@ export default function survey2Page() {
                 <div className="flex flex-col items-center gap-20">
                     <div className="flex flex-col gap-8 w-[76.6875rem] pt-[4.375rem] items-center">
                         <div className="bg-[#FFFFFF33] rounded-lg py-2 px-5">
-                            <p className="text-white">2 / 5</p>
+                            <p className="text-white">2 / 4</p>
                         </div>
 
                         <div className="flex flex-col gap-0.5">
