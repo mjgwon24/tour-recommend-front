@@ -16,13 +16,13 @@ export default function analysisCompletePage() {
                                 분석 완료 🎉
                             </p>
                             <p className="text-center weight-500 text-white text-[1.3125rem]">
-                                당신을 위한 맞춤형 코스 분석이 성공적으로 완료되었어요.<br/>
-                                코스 분석을 확인하고 태그 이벤트를 통해 다양한 상품도 받아가세요!
+                                당신을 위한 맞춤형 메뉴 분석이 성공적으로 완료되었어요.<br/>
+                                직배송되는 신선한 재료를 구매하고, 태그 이벤트를 통해 다양한 상품도 받아가세요!
                             </p>
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-center gap-[5.9375rem] w-screen bg-white rounded-t-3xl pt-20"
+                    <div className="flex flex-col items-center gap-[5.9375rem] w-screen bg-white rounded-t-3xl pt-20 pb-[1.1939rem]"
                          style={{minHeight: 'calc(100vh - 19.6875rem)', minWidth: '76.6875rem'}}>
                         <div className="flex flex-col gap-7">
                             <p className="weight-600 text-center text-[1.3125rem]">당신이 찾던 식사는?</p>
