@@ -1,9 +1,46 @@
-import React, {useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useRouter} from "next/router";
+import axios from "axios";
+import {useQuery} from "@tanstack/react-query";
 
 export default function accommodateReservationDetailPage() {
     const router = useRouter();
+    const { accommodationId } = router.query;
     const [openModal, setModal] = useState(false);
+
+    // 숙소 예약 상세 데이터 반환
+    const fetchAccommodateReservationDetail = useCallback(async () => {
+        if (!accommodationId) return null;
+
+        try {
+            const response = await axios.get(
+                `http://localhost:8081/reservation/accommodations/${accommodationId}`
+            );
+
+            console.log("===");
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }, [accommodationId]);
+
+    const {data, error, isLoading} = useQuery({
+        queryKey: ['accommodateReservationDetail', accommodationId],
+        queryFn: fetchAccommodateReservationDetail,
+        enabled: !!accommodationId,
+        select: (data) => data.data,
+    });
+
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
     const toggleModal = () => {
         setModal(!openModal);
     }
@@ -77,15 +114,15 @@ export default function accommodateReservationDetailPage() {
                 <div
                     className="rounded-t-3xl flex flex-col items-center w-full min-h-screen pt-[2.5rem] pb-[7rem] bg-white">
                     <div className='flex flex-col justify-center gap-4'>
-                        <img src='/images/accommodateThumbs/thumb1.png' alt='accommodateReservationDetail'
+                        <img src={data?.thumbnailPath} alt='accommodateReservationDetail'
                              className='w-[46.875rem] h-[28.125rem] rounded-[0.875rem]'/>
 
                         <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-2.5">
-                                <p className="text-[1.5rem] weight-700">오소한옥</p>
-                                <p className="text-[1.125rem] weight-600">⭐ ️4.5</p>
+                                <p className="text-[1.5rem] weight-700">{data?.name}</p>
+                                <p className="text-[1.125rem] weight-600">⭐ ️{data?.rating}</p>
                             </div>
-                            <p className="weight-500 text-[#404040]">경상북도 경주시 남산예길 99-4 (남산동)</p>
+                            <p className="weight-500 text-[#404040]">{data?.location}</p>
                         </div>
 
                         <div className='flex flex-col justify-center py-[1rem]'>
@@ -94,11 +131,8 @@ export default function accommodateReservationDetailPage() {
 
                         <div className="flex flex-col gap-1 mb-[20px]">
                             <p className="text-[1.2rem] weight-700">기본 정보</p>
-                            <p className="weight-500 text-[#404040]">
-                                - 인원 : 기준 2명 / 최대 4명<br/>
-                                - 기준인원 초과 시 1인당 15,000원 추가됩니다.<br/>
-                                - 객실 정보: 원룸형 / 15평<br/>
-                                - 구비 시설: 침대, 에어컨, TV, 냉장고, 전자레인지, 화장지, 드라이기, 수저, 컵 , 접시<br/>
+                            <p className="weight-500 text-[#404040] whitespace-pre-wrap">
+                                {data?.description}
                             </p>
                         </div>
 
@@ -148,7 +182,7 @@ export default function accommodateReservationDetailPage() {
 
                             <div className="w-full flex flex-col gap-1 items-end">
                                 <p className="txt-[1.125rem] weight-800">
-                                    75,000원
+                                    {data?.price.toLocaleString()}원
                                 </p>
                                 <button
                                     className="rounded-[8px] weight-700 px-[25px] py-[0.27rem] bg-[#FFA500] text-[white]"
