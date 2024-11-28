@@ -20,10 +20,9 @@ export default function survey2Page() {
 
                         <div className="flex flex-col gap-0.5">
                             <p className="text-center text-[2.75rem] weight-700 text-white">
-                                성별은 어떻게 구성되어 있나요?
-                            </p>
+                            국물이 있는 게 더 좋으신가요?</p>
                             <p className="text-center weight-500 text-white">
-                                멤버들의 성별을 알려주세요!
+                                음식 취향을 알려주세요!
                             </p>
                         </div>
                     </div>
@@ -36,9 +35,9 @@ export default function survey2Page() {
                                     <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
                                 ${selected === 'male' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
                                          onClick={() => handleClick('male')}>
-                                        <div className="w-10/11 justify-items-center">
-                                            <p className="relative left-[12.5rem] weight-700 text-[1.3125rem]">‍🙋‍♂️
-                                                남성</p>
+                                        <div className="w-full justify-items-center pl-[1.75rem]">
+                                            <p className="weight-700 text-[1.3125rem]">🙆‍♂️
+                                                있었으면 좋겠어요!</p>
                                         </div>
                                         <div className="w-1/11">
                                             <img src={`${selected === 'male'
@@ -50,26 +49,12 @@ export default function survey2Page() {
                                     <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
                                 ${selected === 'female' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
                                          onClick={() => handleClick('female')}>
-                                        <div className="w-10/11 justify-items-center">
-                                            <p className="relative left-[12.5rem] weight-700 text-[1.3125rem]">🙋‍♀️
-                                                여성</p>
+                                        <div className="w-full justify-items-center pl-[1.75rem]">
+                                            <p className="weight-700 text-[1.3125rem]">🙅‍♂️
+                                            없었으면 좋겠어요!</p>
                                         </div>
                                         <div className="w-1/11">
                                             <img src={`${selected === 'female'
-                                                ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                 className="w-[1.75rem] h-[1.75rem]" alt="v"/>
-                                        </div>
-                                    </div>
-
-                                    <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'mixed-gender' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                         onClick={() => handleClick('mixed-gender')}>
-                                        <div className="w-10/11 justify-items-center">
-                                            <p className="relative left-[11.3125rem] weight-700 text-[1.3125rem]">️🙋
-                                                기타(혼성)</p>
-                                        </div>
-                                        <div className="w-1/11">
-                                            <img src={`${selected === 'mixed-gender'
                                                 ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
                                                  className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                         </div>

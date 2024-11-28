@@ -15,93 +15,62 @@ export default function survey1Page() {
                 <div className="flex flex-col items-center gap-20">
                     <div className="flex flex-col gap-8 w-[76.6875rem] pt-[4.375rem] items-center">
                         <div className="bg-[#FFFFFF33] rounded-lg py-2 px-5">
-                            <p className="text-white">1 / 5</p>
+                            <p className="text-white">1 / 4</p>
                         </div>
 
                         <div className="flex flex-col gap-0.5">
                             <p className="text-center text-[2.75rem] weight-700 text-white">
-                                누구와 같이 왔나요?
+                                어떤 재료가 주 재료면 좋을까요?
                             </p>
                             <p className="text-center weight-500 text-white">
-                                여행을 함께하는 사람을 알려주세요!
+                                좋아하는 재료의 종류를 선택해주세요!
                             </p>
                         </div>
                     </div>
-
                     <div className="flex justify-center w-screen bg-white rounded-t-3xl items-start pt-20"
                          style={{minHeight: 'calc(100vh - 19.6875rem)', minWidth: '76.6875rem'}}>
                         <div className="flex gap-20 justify-between">
                             <div className="flex justify-center items-center pl-[8rem]">
                                 <div className="flex flex-col gap-8">
-                                    <div className="flex gap-16">
-                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'friend' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                             onClick={() => handleClick('friend')}>
-                                            <div className="w-10/11 justify-items-center">
-                                                <p className="relative left-[6.25rem] weight-700 text-[1.3125rem]">‍🧑‍🤝‍🧑
-                                                    친구</p>
-                                            </div>
-                                            <div className="w-1/11">
-                                                <img src={`${selected === 'friend'
-                                                    ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                     className="w-[1.75rem] h-[1.75rem]" alt="v"/>
-                                            </div>
+                                    <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
+                                ${selected === 'meat' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                         onClick={() => handleClick('meat')}>
+                                        <div className="w-full justify-items-center pl-[1.75rem]">
+                                            <p className="weight-700 text-[1.3125rem]">🍖
+                                                고기</p>
                                         </div>
-
-                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'alone' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                             onClick={() => handleClick('alone')}>
-                                            <div className="w-10/11 justify-items-center">
-                                                <p className="relative left-[6.25rem] weight-700 text-[1.3125rem]">🕺 혼자</p>
-                                            </div>
-                                            <div className="w-1/11">
-                                                <img src={`${selected === 'alone'
-                                                    ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                     className="w-[1.75rem] h-[1.75rem]" alt="v"/>
-                                            </div>
+                                        <div className="w-1/11">
+                                            <img src={`${selected === 'meat'
+                                                ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
+                                                 className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                         </div>
                                     </div>
 
-                                    <div className="flex gap-16">
-                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'family' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                             onClick={() => handleClick('family')}>
-                                            <div className="w-10/11 justify-items-center">
-                                                <p className="relative left-[6.25rem] weight-700 text-[1.3125rem]">👫️ 가족</p>
-                                            </div>
-                                            <div className="w-1/11">
-                                                <img src={`${selected === 'family'
-                                                    ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                     className="w-[1.75rem] h-[1.75rem]" alt="v"/>
-                                            </div>
+                                    <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
+                                ${selected === 'seafood' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                         onClick={() => handleClick('seafood')}>
+                                        <div className="w-full justify-items-center pl-[1.75rem]">
+                                            <p className="weight-700 text-[1.3125rem]">🦀
+                                                해산물</p>
                                         </div>
-
-                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'couple' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                             onClick={() => handleClick('couple')}>
-                                            <div className="w-10/11 justify-items-center">
-                                                <p className="relative left-[6.25rem] weight-700 text-[1.3125rem]">💑 커플</p>
-                                            </div>
-                                            <div className="w-1/11">
-                                                <img src={`${selected === 'couple'
-                                                    ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                     className="w-[1.75rem] h-[1.75rem]" alt="v"/>
-                                            </div>
+                                        <div className="w-1/11">
+                                            <img src={`${selected === 'seafood'
+                                                ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
+                                                 className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                         </div>
                                     </div>
 
-                                    <div className="flex justify-start w-full gap-16">
-                                        <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[20rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'organization' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                             onClick={() => handleClick('organization')}>
-                                            <div className="w-10/11 justify-items-center">
-                                                <p className="relative left-[5.625rem] weight-700 text-[1.3125rem]">👬👭 단체</p>
-                                            </div>
-                                            <div className="w-1/11">
-                                                <img src={`${selected === 'organization'
-                                                    ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
-                                                     className="w-[1.75rem] h-[1.75rem]" alt="v"/>
-                                            </div>
+                                    <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
+                                ${selected === 'idontknow' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                         onClick={() => handleClick('idontknow')}>
+                                        <div className="w-full justify-items-center pl-[1.75rem]">
+                                            <p className="weight-700 text-[1.3125rem]">️🤷
+                                            땡기는 게 없는데요?</p>
+                                        </div>
+                                        <div className="w-1/11">
+                                            <img src={`${selected === 'idontknow'
+                                                ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
+                                                 className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                         </div>
                                     </div>
                                 </div>
@@ -115,6 +84,8 @@ export default function survey1Page() {
                             </div>
                         </div>
                     </div>
+                    
+
                 </div>
             </div>
         </div>
