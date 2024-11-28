@@ -2,15 +2,20 @@ import React, {useCallback, useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import axios from "axios";
 import {useQuery} from "@tanstack/react-query";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default function accommodateReservationDetailPage() {
+export default function AccommodateReservationDetailPage() {
     const router = useRouter();
     const { accommodationId } = router.query;
     const [openModal, setModal] = useState(false);
+    const [checkinDate, setCheckinDate] = useState(new Date());
+    const [checkoutDate, setCheckoutDate] = useState(new Date());
+    const [totalPrice, setTotalPrice] = useState(0);
 
     // 숙소 예약 상세 데이터 반환
     const fetchAccommodateReservationDetail = useCallback(async () => {
-        if (!accommodationId) return null;
+        if (!accommodationId) return Promise.resolve(null);
 
         try {
             const response = await axios.get(
@@ -33,14 +38,25 @@ export default function accommodateReservationDetailPage() {
         select: (data) => data.data,
     });
 
-    if (isLoading) {
-        return <div>로딩 중...</div>;
-    }
+    // 체크인 날짜는 오늘, 체크아웃 날짜는 내일로 초기화
+    useEffect(() => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        setCheckoutDate(tomorrow);
+    }, []);
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
+    // 숙박일수에 따라 금액 계산
+    useEffect(() => {
+        if (data) {
+            const days = Math.floor(
+                (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)
+            );
+            const calculatedPrice = days * data.price;
+            setTotalPrice(calculatedPrice);
+        }
+    }, [checkinDate, checkoutDate, data]);
 
+    // 예약 신청 토글 함수
     const toggleModal = () => {
         setModal(!openModal);
     }
@@ -156,17 +172,42 @@ export default function accommodateReservationDetailPage() {
                                         <div className="flex items-center gap-1.5">
                                             <div
                                                 className="rounded-[0.5rem] border border-[#404040] px-[0.9375rem] py-[0.15rem]">
-                                                <p className="weight-500 text-[#404040]">11.24</p>
+                                                <DatePicker
+                                                    selected={checkinDate}
+                                                    onChange={(date) => {
+                                                        setCheckinDate(date);
+
+                                                        if (date >= checkoutDate) {
+                                                            const newCheckoutDate = new Date(date);
+                                                            newCheckoutDate.setDate(newCheckoutDate.getDate() + 1);
+                                                            setCheckoutDate(newCheckoutDate);
+                                                    }}}
+                                                    dateFormat="yyyy.MM.dd"
+                                                    minDate={new Date()}
+                                                    className="weight-500 text-[#404040] w-[5.2rem] text-center"
+                                                />
                                             </div>
 
                                             <p className="weight-500 text-[#404040]">-</p>
 
                                             <div
                                                 className="rounded-[0.5rem] border border-[#404040] px-[0.9375rem] py-[0.15rem]">
-                                                <p className="weight-500 text-[#404040]">11.25</p>
+                                                <DatePicker
+                                                    selected={checkoutDate}
+                                                    onChange={(date) => setCheckoutDate(date)}
+                                                    dateFormat="yyyy.MM.dd"
+                                                    minDate={checkinDate}
+                                                    className="weight-500 text-[#404040] w-[5.2rem] text-center"
+
+                                                />
                                             </div>
                                         </div>
-                                        <p className="weight-500 text-[#404040]">1박</p>
+                                        <p className="weight-500 text-[#404040]">
+                                            {Math.floor(
+                                                (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)
+                                            )}
+                                            박
+                                        </p>
                                     </div>
                                 </div>
 
@@ -182,7 +223,7 @@ export default function accommodateReservationDetailPage() {
 
                             <div className="w-full flex flex-col gap-1 items-end">
                                 <p className="txt-[1.125rem] weight-800">
-                                    {data?.price.toLocaleString()}원
+                                    {totalPrice.toLocaleString()}원
                                 </p>
                                 <button
                                     className="rounded-[8px] weight-700 px-[25px] py-[0.27rem] bg-[#FFA500] text-[white]"
