@@ -77,7 +77,9 @@ export default function accommodateReservationPage() {
                         {data ? (
                             data.accommodations.map(accommodation => (
                                 <div key={accommodation.id}>
-                                    <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
+                                    <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'
+                                         onClick={() => router.push(`/accommodateReservationDetail/${accommodation.id}`)}
+                                    >
                                         <div className='flex gap-7'>
                                             <div className='flex flex-col justify-center'>
                                                 <img src={accommodation.thumbnailPath}
