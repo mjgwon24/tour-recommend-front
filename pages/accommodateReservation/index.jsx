@@ -14,7 +14,7 @@ export default function accommodateReservationPage() {
 
     // 숙소 데이터 반환
     const fetchAccommodations = async (page = 1) => {
-        const response = await axios.get(`http://localhost:8081/reservation/accommodations?pageNumber=${page}&size=5`);;
+        const response = await axios.get(`http://localhost:8081/reservation/accommodations?pageNumber=${page}&size=5`);
         return response.data;
     }
 
