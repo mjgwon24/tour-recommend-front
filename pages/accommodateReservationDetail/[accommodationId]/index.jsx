@@ -1,18 +1,47 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useRouter} from "next/router";
 import axios from "axios";
 import {useQuery} from "@tanstack/react-query";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+/**
+ * 숙소 예약 상세 페이지
+ * @author 권민지
+ */
 export default function AccommodateReservationDetailPage() {
     const router = useRouter();
     const { accommodationId } = router.query;
+
+    // 상태 관리
     const [openModal, setModal] = useState(false);
     const [checkinDate, setCheckinDate] = useState(new Date());
     const [checkoutDate, setCheckoutDate] = useState(new Date());
     const [totalPrice, setTotalPrice] = useState(0);
+    const [availableRooms, setAvailableRooms] = useState(0);
 
+    // 최신 상태 관리용 Ref
+    const checkinDateRef = useRef(checkinDate);
+    const checkoutDateRef = useRef(checkoutDate);
+
+    /**
+     * 유틸리티 함수
+     */
+    // 날짜를 시간 없이 처리
+    const resetTime = (date) => {
+        const newDate = new Date(date);
+        newDate.setHours(0, 0, 0, 0);
+        return newDate;
+    };
+
+    // 날짜 형식 변환
+    const formatDate = (date) => {
+        return date.toLocaleDateString('en-CA');
+    }
+
+    /**
+     * 데이터 반환
+     */
     // 숙소 예약 상세 데이터 반환
     const fetchAccommodateReservationDetail = useCallback(async () => {
         if (!accommodationId) return Promise.resolve(null);
@@ -22,14 +51,31 @@ export default function AccommodateReservationDetailPage() {
                 `http://localhost:8081/reservation/accommodations/${accommodationId}`
             );
 
-            console.log("===");
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
             throw error;
         }
     }, [accommodationId]);
+
+    // 남은 방 수 조회 데이터 반환
+    const fetchAvailableRooms = async () => {
+        if (!accommodationId || !checkinDate || !checkoutDate) return Promise.resolve(null);
+
+        try {
+            const response = await axios.get(
+                `http://localhost:8081/reservation/accommodations/${accommodationId}/available-rooms`, {
+                    params: {
+                        checkInDate: formatDate(checkinDate),
+                        checkOutDate: formatDate(checkoutDate)
+                    }
+                }
+            );
+            setAvailableRooms(response.data.data);
+        } catch (error) {
+            console.error("남은 방 수 조회 오류:", error);
+        }
+    }
 
     const {data, error, isLoading} = useQuery({
         queryKey: ['accommodateReservationDetail', accommodationId],
@@ -38,12 +84,28 @@ export default function AccommodateReservationDetailPage() {
         select: (data) => data.data,
     });
 
-    // 체크인 날짜는 오늘, 체크아웃 날짜는 내일로 초기화
+    // 초기 날짜 설정
     useEffect(() => {
-        const tomorrow = new Date();
+        const today = resetTime(new Date());
+        setCheckinDate(today);
+
+        const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
-        setCheckoutDate(tomorrow);
+        setCheckoutDate(resetTime(tomorrow));
     }, []);
+
+    // 날짜 변경 시 최신 상태 Ref 업데이트
+    useEffect(() => {
+        checkinDateRef.current = checkinDate;
+        checkoutDateRef.current = checkoutDate;
+    }, [checkinDate, checkoutDate]);
+
+    // 체크인/체크아웃 변경 시 남은 방 수 재조회
+    useEffect(() => {
+        if (checkinDate && checkoutDate && accommodationId) {
+            fetchAvailableRooms();
+        }
+    }, [fetchAvailableRooms, checkinDate, checkoutDate, accommodationId]);
 
     // 숙박일수에 따라 금액 계산
     useEffect(() => {
@@ -55,6 +117,27 @@ export default function AccommodateReservationDetailPage() {
             setTotalPrice(calculatedPrice);
         }
     }, [checkinDate, checkoutDate, data]);
+
+    /**
+     * 이벤트 핸들러
+     */
+    // 체크인 날짜 변경 시
+    const handleCheckinDateChange = (date) => {
+        const newCheckinDate = resetTime(date);
+        setCheckinDate(newCheckinDate);
+
+        // 체크아웃 날짜가 체크인 날짜와 같거나 이전인 경우
+        if (newCheckinDate >= checkoutDate) {
+            const newCheckoutDate = new Date(newCheckinDate);
+            newCheckoutDate.setDate(newCheckoutDate.getDate() + 1);
+            setCheckoutDate(resetTime(newCheckoutDate));
+        }
+    };
+
+    // 체크아웃 날짜 변경 시
+    const handleCheckoutDateChange = (date) => {
+        setCheckoutDate(resetTime(date));
+    };
 
     // 예약 신청 토글 함수
     const toggleModal = () => {
@@ -174,14 +257,7 @@ export default function AccommodateReservationDetailPage() {
                                                 className="rounded-[0.5rem] border border-[#404040] px-[0.9375rem] py-[0.15rem]">
                                                 <DatePicker
                                                     selected={checkinDate}
-                                                    onChange={(date) => {
-                                                        setCheckinDate(date);
-
-                                                        if (date >= checkoutDate) {
-                                                            const newCheckoutDate = new Date(date);
-                                                            newCheckoutDate.setDate(newCheckoutDate.getDate() + 1);
-                                                            setCheckoutDate(newCheckoutDate);
-                                                    }}}
+                                                    onChange={handleCheckinDateChange}
                                                     dateFormat="yyyy.MM.dd"
                                                     minDate={new Date()}
                                                     className="weight-500 text-[#404040] w-[5.2rem] text-center"
@@ -194,11 +270,10 @@ export default function AccommodateReservationDetailPage() {
                                                 className="rounded-[0.5rem] border border-[#404040] px-[0.9375rem] py-[0.15rem]">
                                                 <DatePicker
                                                     selected={checkoutDate}
-                                                    onChange={(date) => setCheckoutDate(date)}
+                                                    onChange={handleCheckoutDateChange}
                                                     dateFormat="yyyy.MM.dd"
                                                     minDate={checkinDate}
                                                     className="weight-500 text-[#404040] w-[5.2rem] text-center"
-
                                                 />
                                             </div>
                                         </div>
@@ -216,7 +291,7 @@ export default function AccommodateReservationDetailPage() {
                                         남은 방
                                     </p>
                                     <p className="weight-500 text-[#404040]">
-                                        3개
+                                        {availableRooms}개
                                     </p>
                                 </div>
                             </div>
@@ -226,8 +301,11 @@ export default function AccommodateReservationDetailPage() {
                                     {totalPrice.toLocaleString()}원
                                 </p>
                                 <button
-                                    className="rounded-[8px] weight-700 px-[25px] py-[0.27rem] bg-[#FFA500] text-[white]"
+                                    className={`rounded-[8px] weight-700 px-[25px] py-[0.27rem] ${
+                                        availableRooms === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-[#FFA500] text-[white]"
+                                    }`}
                                     onClick={()=>{toggleModal();}}
+                                    disabled={availableRooms === 0}
                                 >
                                     예약하기
                                 </button>
