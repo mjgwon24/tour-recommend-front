@@ -63,3 +63,8 @@
   padding: 0;
   box-sizing : border-box;
 }
+
+.react-datepicker-wrapper input:focus {
+  outline: none;
+  box-shadow: none;
+}

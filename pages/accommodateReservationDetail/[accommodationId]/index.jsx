@@ -1,9 +1,145 @@
-import React, {useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {useRouter} from "next/router";
+import axios from "axios";
+import {useQuery} from "@tanstack/react-query";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default function accommodateReservationDetailPage() {
+/**
+ * 숙소 예약 상세 페이지
+ * @author 권민지
+ */
+export default function AccommodateReservationDetailPage() {
     const router = useRouter();
+    const { accommodationId } = router.query;
+
+    // 상태 관리
     const [openModal, setModal] = useState(false);
+    const [checkinDate, setCheckinDate] = useState(new Date());
+    const [checkoutDate, setCheckoutDate] = useState(new Date());
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [availableRooms, setAvailableRooms] = useState(0);
+
+    // 최신 상태 관리용 Ref
+    const checkinDateRef = useRef(checkinDate);
+    const checkoutDateRef = useRef(checkoutDate);
+
+    /**
+     * 유틸리티 함수
+     */
+    // 날짜를 시간 없이 처리
+    const resetTime = (date) => {
+        const newDate = new Date(date);
+        newDate.setHours(0, 0, 0, 0);
+        return newDate;
+    };
+
+    // 날짜 형식 변환
+    const formatDate = (date) => {
+        return date.toLocaleDateString('en-CA');
+    }
+
+    /**
+     * 데이터 반환
+     */
+    // 숙소 예약 상세 데이터 반환
+    const fetchAccommodateReservationDetail = useCallback(async () => {
+        if (!accommodationId) return Promise.resolve(null);
+
+        try {
+            const response = await axios.get(
+                `http://localhost:8081/reservation/accommodations/${accommodationId}`
+            );
+
+            return response.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }, [accommodationId]);
+
+    // 남은 방 수 조회 데이터 반환
+    const fetchAvailableRooms = async () => {
+        if (!accommodationId || !checkinDate || !checkoutDate) return Promise.resolve(null);
+
+        try {
+            const response = await axios.get(
+                `http://localhost:8081/reservation/accommodations/${accommodationId}/available-rooms`, {
+                    params: {
+                        checkInDate: formatDate(checkinDate),
+                        checkOutDate: formatDate(checkoutDate)
+                    }
+                }
+            );
+            setAvailableRooms(response.data.data);
+        } catch (error) {
+            console.error("남은 방 수 조회 오류:", error);
+        }
+    }
+
+    const {data, error, isLoading} = useQuery({
+        queryKey: ['accommodateReservationDetail', accommodationId],
+        queryFn: fetchAccommodateReservationDetail,
+        enabled: !!accommodationId,
+        select: (data) => data.data,
+    });
+
+    // 초기 날짜 설정
+    useEffect(() => {
+        const today = resetTime(new Date());
+        setCheckinDate(today);
+
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        setCheckoutDate(resetTime(tomorrow));
+    }, []);
+
+    // 날짜 변경 시 최신 상태 Ref 업데이트
+    useEffect(() => {
+        checkinDateRef.current = checkinDate;
+        checkoutDateRef.current = checkoutDate;
+    }, [checkinDate, checkoutDate]);
+
+    // 체크인/체크아웃 변경 시 남은 방 수 재조회
+    useEffect(() => {
+        if (checkinDate && checkoutDate && accommodationId) {
+            fetchAvailableRooms();
+        }
+    }, [fetchAvailableRooms, checkinDate, checkoutDate, accommodationId]);
+
+    // 숙박일수에 따라 금액 계산
+    useEffect(() => {
+        if (data) {
+            const days = Math.floor(
+                (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)
+            );
+            const calculatedPrice = days * data.price;
+            setTotalPrice(calculatedPrice);
+        }
+    }, [checkinDate, checkoutDate, data]);
+
+    /**
+     * 이벤트 핸들러
+     */
+    // 체크인 날짜 변경 시
+    const handleCheckinDateChange = (date) => {
+        const newCheckinDate = resetTime(date);
+        setCheckinDate(newCheckinDate);
+
+        // 체크아웃 날짜가 체크인 날짜와 같거나 이전인 경우
+        if (newCheckinDate >= checkoutDate) {
+            const newCheckoutDate = new Date(newCheckinDate);
+            newCheckoutDate.setDate(newCheckoutDate.getDate() + 1);
+            setCheckoutDate(resetTime(newCheckoutDate));
+        }
+    };
+
+    // 체크아웃 날짜 변경 시
+    const handleCheckoutDateChange = (date) => {
+        setCheckoutDate(resetTime(date));
+    };
+
+    // 예약 신청 토글 함수
     const toggleModal = () => {
         setModal(!openModal);
     }
@@ -77,15 +213,15 @@ export default function accommodateReservationDetailPage() {
                 <div
                     className="rounded-t-3xl flex flex-col items-center w-full min-h-screen pt-[2.5rem] pb-[7rem] bg-white">
                     <div className='flex flex-col justify-center gap-4'>
-                        <img src='/images/accommodateThumbs/thumb1.png' alt='accommodateReservationDetail'
+                        <img src={data?.thumbnailPath} alt='accommodateReservationDetail'
                              className='w-[46.875rem] h-[28.125rem] rounded-[0.875rem]'/>
 
                         <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-2.5">
-                                <p className="text-[1.5rem] weight-700">오소한옥</p>
-                                <p className="text-[1.125rem] weight-600">⭐ ️4.5</p>
+                                <p className="text-[1.5rem] weight-700">{data?.name}</p>
+                                <p className="text-[1.125rem] weight-600">⭐ ️{data?.rating}</p>
                             </div>
-                            <p className="weight-500 text-[#404040]">경상북도 경주시 남산예길 99-4 (남산동)</p>
+                            <p className="weight-500 text-[#404040]">{data?.location}</p>
                         </div>
 
                         <div className='flex flex-col justify-center py-[1rem]'>
@@ -94,11 +230,8 @@ export default function accommodateReservationDetailPage() {
 
                         <div className="flex flex-col gap-1 mb-[20px]">
                             <p className="text-[1.2rem] weight-700">기본 정보</p>
-                            <p className="weight-500 text-[#404040]">
-                                - 인원 : 기준 2명 / 최대 4명<br/>
-                                - 기준인원 초과 시 1인당 15,000원 추가됩니다.<br/>
-                                - 객실 정보: 원룸형 / 15평<br/>
-                                - 구비 시설: 침대, 에어컨, TV, 냉장고, 전자레인지, 화장지, 드라이기, 수저, 컵 , 접시<br/>
+                            <p className="weight-500 text-[#404040] whitespace-pre-wrap">
+                                {data?.description}
                             </p>
                         </div>
 
@@ -122,17 +255,34 @@ export default function accommodateReservationDetailPage() {
                                         <div className="flex items-center gap-1.5">
                                             <div
                                                 className="rounded-[0.5rem] border border-[#404040] px-[0.9375rem] py-[0.15rem]">
-                                                <p className="weight-500 text-[#404040]">11.24</p>
+                                                <DatePicker
+                                                    selected={checkinDate}
+                                                    onChange={handleCheckinDateChange}
+                                                    dateFormat="yyyy.MM.dd"
+                                                    minDate={new Date()}
+                                                    className="weight-500 text-[#404040] w-[5.2rem] text-center"
+                                                />
                                             </div>
 
                                             <p className="weight-500 text-[#404040]">-</p>
 
                                             <div
                                                 className="rounded-[0.5rem] border border-[#404040] px-[0.9375rem] py-[0.15rem]">
-                                                <p className="weight-500 text-[#404040]">11.25</p>
+                                                <DatePicker
+                                                    selected={checkoutDate}
+                                                    onChange={handleCheckoutDateChange}
+                                                    dateFormat="yyyy.MM.dd"
+                                                    minDate={checkinDate}
+                                                    className="weight-500 text-[#404040] w-[5.2rem] text-center"
+                                                />
                                             </div>
                                         </div>
-                                        <p className="weight-500 text-[#404040]">1박</p>
+                                        <p className="weight-500 text-[#404040]">
+                                            {Math.floor(
+                                                (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24)
+                                            )}
+                                            박
+                                        </p>
                                     </div>
                                 </div>
 
@@ -141,18 +291,21 @@ export default function accommodateReservationDetailPage() {
                                         남은 방
                                     </p>
                                     <p className="weight-500 text-[#404040]">
-                                        3개
+                                        {availableRooms}개
                                     </p>
                                 </div>
                             </div>
 
                             <div className="w-full flex flex-col gap-1 items-end">
                                 <p className="txt-[1.125rem] weight-800">
-                                    75,000원
+                                    {totalPrice.toLocaleString()}원
                                 </p>
                                 <button
-                                    className="rounded-[8px] weight-700 px-[25px] py-[0.27rem] bg-[#FFA500] text-[white]"
+                                    className={`rounded-[8px] weight-700 px-[25px] py-[0.27rem] ${
+                                        availableRooms === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-[#FFA500] text-[white]"
+                                    }`}
                                     onClick={()=>{toggleModal();}}
+                                    disabled={availableRooms === 0}
                                 >
                                     예약하기
                                 </button>

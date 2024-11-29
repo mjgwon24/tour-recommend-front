@@ -1,13 +1,33 @@
-import {useRouter} from "next/router";
-import React, {useState} from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import axios from "axios";
 
 export default function ingredientsDeliveryDetailPage() {
     const router = useRouter();
+    
+    const fetchSalePostData = async () => {
+        const response = await axios.get(`http://localhost:8081/sale/posts/${router.query.salePostId}`);
+        return response.data;
+      };
+    
+    // State Variables
     const [openModal, setModal] = useState(false);
+    
+    // UseQuery
+    const { data, error, isLoading } = useQuery({
+        queryKey: ['salePosts'],
+        queryFn: fetchSalePostData,
+        select: (data) => data.data,
+    });
+
+    console.log(data);
+
+    // Helper Functions
     const toggleModal = () => {
         setModal(!openModal);
     }
-
+    
     return (
         <div className="w-full">
             {openModal &&
@@ -85,14 +105,14 @@ export default function ingredientsDeliveryDetailPage() {
                             <div className="flex flex-col">
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-center gap-2.5">
-                                        <p className="text-[1.5rem] weight-700">깻잎 30g</p>
-                                        <p className="text-[1.125rem] weight-600">⭐ ️4.5</p>
+                                        <p className="text-[1.5rem] weight-700">{data?.name}</p>
+                                        <p className="text-[1.125rem] weight-600">⭐ ️{data?.rating}</p>
                                     </div>
-                                    <p className="weight-500 text-[#404040]">믿고 먹을 수 있는 깻잎을 합리적인 가격에!</p>
+                                    <p className="weight-500 text-[#404040] whitespace-pre-line">{data?.shortDescription}</p>
                                 </div>
 
                                 <div className="flex justify-end w-full">
-                                    <p className="weight-700 text-[1.25rem]">4,500원</p>
+                                    <p className="weight-700 text-[1.25rem]">{data?.price}원</p>
                                 </div>
                             </div>
 
@@ -102,22 +122,12 @@ export default function ingredientsDeliveryDetailPage() {
 
                             <div className="flex flex-col gap-1 mb-[20px]">
                                 <p className="text-[1.2rem] weight-700">상품 정보</p>
-                                <p className="weight-500 text-[#404040]">
-                                    - 포장타입 : 냉장 (종이 포장)<br/>
-                                    - 판매단위 : 1박스<br/>
-                                    - 중량/용량 : 2.5kg 내외<br/>
-                                    - 소비기한 : 농산물이므로 별도의 소비기한은 없으나 가급적 빠르게 드시기 바랍니다.<br/>
-                                    - 안내사항 :<br/>
-                                    식품 특성상 중량은 3% 내외의 차이가 발생할 수 있습니다.<br/>
-                                    신선식품 특성상 원물마다 크기 및 형태가 일정하지 않을 수 있습니다.
-                                </p>
+                                <p className="weight-500 text-[#404040] whitespace-pre-wrap">{data?.detailedDescription}</p>
                             </div>
 
                             <div className="flex flex-col gap-1 mb-[20px]">
                                 <p className="text-[1.2rem] weight-700">판매자</p>
-                                <p className="weight-500 text-[#404040]">
-                                    경주농장
-                                </p>
+                                <p className="weight-500 text-[#404040]">{data?.sellerName}</p>
                             </div>
 
                             <button
