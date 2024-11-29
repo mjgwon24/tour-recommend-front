@@ -65,7 +65,10 @@ export default function survey2Page() {
                             <div className="w-[3rem] content-center">
                                 <img className={`w-12 h-12 cursor-pointer
                                 ${selected === null ? 'hidden' : 'block'}`}
-                                     onClick={() => router.push('/survey3')}
+                                     onClick={() => router.push({
+                                        pathname: "/survey3",
+                                        query: { ...router.query, selected2: selected }, // 기존 쿼리 유지
+                                    })}
                                      src="/images/icon/next_btn.png" alt="다음"/>
                             </div>
                         </div>
