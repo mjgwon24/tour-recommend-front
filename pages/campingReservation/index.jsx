@@ -79,7 +79,7 @@ export default function campingReservationPage() {
                             data.campsites.map(campsite => (
                                 <div key={campsite.id}>
                                     <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'
-                                         onClick={() => router.push(`/campingReservationDetail/${campsite.id}`)}
+                                         onClick={() => router.push(`/campingDetail/${campsite.id}`)}
                                     >
                                         <div className='flex gap-7'>
                                             <div className='flex flex-col justify-center'>
