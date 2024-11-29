@@ -8,9 +8,19 @@ export default function survey4Page() {
     const handleClick = (id) => {
         setSelected(id);
     };
+    const { selected1, selected2, selected3, selected4 } = router.query;
 
+    const handleSubmit = () => {
+        const allAnswers = {
+            question1: selected1,
+            question2: selected2,
+            question3: selected3,
+            question4: selected4,
+        };
+    };
     return(
         <div className="flex flex-col items-center bg-[#FFA500] h-screen min-w-[76.6875rem] justify-items-center content-center">
+            <button onClick={handleSubmit}>sdfsdfsdf</button>
             <div className="w-[76.6875rem]">
                 <div className="flex flex-col items-center gap-20">
                     <div className="flex flex-col gap-8 w-[76.6875rem] pt-[4.375rem] items-center">
@@ -33,42 +43,42 @@ export default function survey4Page() {
                             <div className="flex justify-center items-center pl-[8rem]">
                                 <div className="flex flex-col gap-8">
                                     <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'meat' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                         onClick={() => handleClick('meat')}>
+                                ${selected === 'good' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                         onClick={() => handleClick('good')}>
                                         <div className="w-full justify-items-center pl-[1.75rem]">
                                             <p className="weight-700 text-[1.3125rem]">😁
                                                 요리를 완전 잘해요</p>
                                         </div>
                                         <div className="w-1/11">
-                                            <img src={`${selected === 'meat'
+                                            <img src={`${selected === 'good'
                                                 ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
                                                  className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                         </div>
                                     </div>
 
                                     <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'seafood' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                         onClick={() => handleClick('seafood')}>
+                                ${selected === 'soso' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                         onClick={() => handleClick('soso')}>
                                         <div className="w-full justify-items-center pl-[1.75rem]">
                                             <p className="weight-700 text-[1.3125rem]">😊
                                                 저는 좀 해요!</p>
                                         </div>
                                         <div className="w-1/11">
-                                            <img src={`${selected === 'seafood'
+                                            <img src={`${selected === 'soso'
                                                 ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
                                                  className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                         </div>
                                     </div>
 
                                     <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'idontknow' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                         onClick={() => handleClick('idontknow')}>
+                                ${selected === 'bad' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                         onClick={() => handleClick('bad')}>
                                         <div className="w-full justify-items-center pl-[1.75rem]">
                                             <p className="weight-700 text-[1.3125rem]">️😣
                                             저는 완전 못해요...</p>
                                         </div>
                                         <div className="w-1/11">
-                                            <img src={`${selected === 'idontknow'
+                                            <img src={`${selected === 'bad'
                                                 ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
                                                  className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                         </div>
