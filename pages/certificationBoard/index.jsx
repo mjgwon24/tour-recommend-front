@@ -10,7 +10,6 @@ export default function certificationBoardPage() {
     const [placeholder, setPlaceholder] = useState(true);
     const inputRef = useRef(null);
     const router = useRouter();
-
     const [files, setFiles] = useState([]);
 
     const handleTextarea = (e)=>{
@@ -22,12 +21,15 @@ export default function certificationBoardPage() {
         setFiles(selectedFiles);
     };
 
-
     const [snsUserName,setSnsUserName] = useState("");
     const [phoneNumber,setPhoneNumber] = useState("");
     const [email,setEmail] = useState("");
     const [title,setTitle] = useState("");
     const [text,setText] = useState("");
+
+    const isFormValid = () => {
+        return snsUserName && phoneNumber && email && title && text;
+    }
     
     const SubmitCertification = async() => {
         if(files.length!==0){
@@ -74,7 +76,14 @@ export default function certificationBoardPage() {
                 router.push(`/certificationBoardDetail/${res.data.data.id}`);
             }
         }
-        
+    }
+
+    const handleSubmitClick = () => {
+        if (!isFormValid()) {
+            alert("모든 항목을 입력해주세요.");
+            return;
+        }
+        SubmitCertification();
     }
 
     return (
@@ -186,18 +195,25 @@ export default function certificationBoardPage() {
                         <label className="text-[1.49625rem] weight-700 pb-1">사진 첨부</label>
                         <input id="file" className="hidden" type="file" multiple onChange={handleFileChange}></input>
                         <div className="flex gap-[0.5625rem] flex-wrap">
-                            <label htmlFor='file'><RiImageAddLine className="w-[1.875rem] h-[1.875rem] cursor-pointer mr-[0.375rem]"></RiImageAddLine></label>
+                            <label htmlFor='file'>
+                                <RiImageAddLine className="w-[1.875rem] h-[1.875rem] cursor-pointer mr-[0.375rem]">
+                                </RiImageAddLine>
+                            </label>
                             {files&&Array.from(files).map((value,index)=>{
-                                return(<div key={index} className="flex items-center justify-between gap-[0.0625rem] w-[142px] pl-[20px] pr-[0.125rem] py-[0.3125rem] rounded-[0.625rem] border-[0.0625rem] border-solid border-[#bdbdbd]">
-                                <div 
-                                className="cursor-pointer text-[0.875rem] overflow-hidden text-ellipsis whitespace-nowrap max-w-[90px]"
-                                 title={value.name}>{value.name}</div>
+                                return(
+                                    <div key={index} className="flex items-center justify-between gap-[0.0625rem] w-[142px] pl-[20px] pr-[0.125rem] py-[0.3125rem] rounded-[0.625rem] border-[0.0625rem] border-solid border-[#bdbdbd]">
+                                        <div
+                                        className="cursor-pointer text-[0.875rem] overflow-hidden text-ellipsis whitespace-nowrap max-w-[90px]"
+                                         title={value.name}>{value.name}</div>
                                 <TiDelete className="w-[22px] h-[22px] cursor-pointer text-[gray]"></TiDelete>
                             </div>)
                             })}
                         </div>
                     </div>
-                    <button className="self-center mt-10 mb-[19.239375rem] rounded-[0.914375rem] w-[18.2875rem] h-[4.15625rem] bg-[#FFA500] text-[1.49625rem] text-white weight-700  hover:bg-[#F18304]" onClick={SubmitCertification}>인증하기</button>
+                    <button className="self-center mt-10 mb-[19.239375rem] rounded-[0.914375rem] w-[18.2875rem] h-[4.15625rem] bg-[#FFA500] text-[1.49625rem] text-white weight-700  hover:bg-[#F18304]"
+                            onClick={handleSubmitClick}>
+                        인증하기
+                    </button>
                 </div>
             </div>
             
