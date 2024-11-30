@@ -1,16 +1,36 @@
 import {useRouter} from 'next/router';
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import { CgProfile } from "@react-icons/all-files/cg/CgProfile"
 import { AiOutlineLike } from "@react-icons/all-files/ai/AiOutlineLike"
+import axios from "axios";
+import {useQuery} from "@tanstack/react-query";
 /**
  * quoteTalkDetailPage ui
  * @author 김이현
  */
-
-
 export default function quoteTalkDetailPage() {
     const router = useRouter();
+    const { postId } = router.query;
+    const [userComment,setUserComment] = useState("");
 
+    const fetchQuoteTalkDetail = useCallback(async (postId) => {
+        if (!postId) return Promise.resolve(null);
+        try {
+            const response = await axios.get(
+                `http://localhost:8081/estimate-talk/posts/${postId}`
+            );
+
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }, [postId]);
+
+    const {data, error, isLoading} = useQuery({
+        queryKey: ['quoteTalkDetail', postId],
+        queryFn: () => fetchQuoteTalkDetail(postId),
+        select: (data) => data.data,
+    });
 
 
     return(
@@ -57,7 +77,7 @@ export default function quoteTalkDetailPage() {
                                         <div className='flex justify-start w-auto'>
                                             <div className='flex gap-2'>
                                                 <div className='flex flex-col justify-center'>
-                                                    <div>견적 요청합니다</div>
+                                                    <div>{data?.title}</div>
                                                 </div>
                                                 <div className='flex flex-col justify-end'>
                                                     <div className='text-[0.665rem] text-[#878787]'>의견 34</div>
@@ -65,13 +85,13 @@ export default function quoteTalkDetailPage() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787] text-[0.665rem]'>24.11.10</div>
+                                    <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787] text-[0.665rem]'>{new Date(data?.createAt).toLocaleDateString().replaceAll(" ","")}</div>
                                 </div>
                                 <div className='flex flex-col justify-center py-[1.375rem]'>
                                     <hr/>
                                 </div>
 
-                                <div className='text-[0.665rem] text-[#404040] w-max-[925px] pb-[6.15125rem]'>아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박</div>
+                                <div className='text-[0.665rem] text-[#404040] w-max-[925px] pb-[6.15125rem]'>{data?.contents}</div>
 
 
                                 {/* 구분선 */}
