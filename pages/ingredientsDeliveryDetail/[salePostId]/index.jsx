@@ -23,6 +23,24 @@ export default function ingredientsDeliveryDetailPage() {
         return response.data;
       };
 
+    // 구매 API 호출
+    const handlePurchaseRequest = async () => {
+        try {
+            const response = await axios.post(`http://localhost:8081/sale/posts/${salePostId}/purchase`, {
+                "phoneNumber": phoneNumber,
+                "email": email,
+                "price": data.price,
+                "quantity": quantity
+            });
+            alert("구매가 완료되었습니다.  구매 현황을 조회하고 싶으신 경우, 예약/구매 조회 메뉴에서 확인해주세요!");
+            setModal(false);
+        } catch (error) {
+            console.error("구매 중 오류 발생: ", error);
+            alert("구매 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+
+    }
+
     // UseQuery
     const { data, error, isLoading } = useQuery({
         queryKey: ['salePosts', salePostId],
@@ -57,7 +75,7 @@ export default function ingredientsDeliveryDetailPage() {
     // 제출 입력 폼 유효성 검증
     const handleSubmit = () => {
         if (validateInputs()) {
-            // handlePurchaseRequest();
+            handlePurchaseRequest();
         }
     }
 
