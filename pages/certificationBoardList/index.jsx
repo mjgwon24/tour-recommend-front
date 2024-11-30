@@ -1,5 +1,9 @@
 import {useRouter} from 'next/router';
-import React, { useState } from 'react';
+import React, { useState, useCallback,useEffect  } from 'react';
+import {useQuery} from "@tanstack/react-query";
+import axios from "axios";
+import { resolve } from 'styled-jsx/css';
+
 /**
  * certificationBoardListPage ui
  * @author 김이현
@@ -8,11 +12,41 @@ import React, { useState } from 'react';
 
 export default function certificationBoardListPage() {
 
-    const [selectedCategory,setSelectedCategory] = useState("room");
+    const [selectedCategory,setSelectedCategory] = useState("ACCOMMODATION_VISIT");
     const router = useRouter();
+    const [page, setPage] = useState(0);
+
+    const handlePageClick = (newPage) => {
+        setPage(newPage);
+    }
+    const fetchCertificationBoards = async (category, page) => {
+        try {
+            const response = await axios.get(`http://localhost:8081/sns-auth/posts/category/${category}?pageNumber=${page}&size=10`);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    const {data, error, isLoading} = useQuery({
+        queryKey: ['certificationBoards', selectedCategory,page],
+        queryFn: () => fetchCertificationBoards(selectedCategory, page),
+        select: (data) => data.data,
+    });
 
 
 
+    useEffect(()=>{
+        console.log(data);
+    },[data]);
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
     return(
         <>
             <div className="flex flex-col items-center min-h-screen min-w-[76.6rem] bg-[#FFA500]">
@@ -68,11 +102,11 @@ export default function certificationBoardListPage() {
                                         hover:bg-[#FFEECE]
                                         cursor-pointer
                                         ${
-                                            selectedCategory=="room"?
+                                            selectedCategory=="ACCOMMODATION_VISIT"?
                                             "text-[#F18304] border-[#F18304]":
                                             "text-[#6C6C6C] hover:text-[#F18304] hover:border-[#F18304] border-[#6C6C6C]"
                                         }`}
-                                        onClick={()=>{setSelectedCategory("room")}}>숙소 방문 인증
+                                        onClick={()=>{setSelectedCategory("ACCOMMODATION_VISIT")}}>숙소 방문 인증
                                     </div>
                                     <div
                                         className={`flex 
@@ -88,11 +122,11 @@ export default function certificationBoardListPage() {
                                         hover:bg-[#FFEECE]
                                         cursor-pointer
                                         ${
-                                            selectedCategory=="trash"?
+                                            selectedCategory=="WASTE_DISPOSAL"?
                                             "text-[#F18304] border-[#F18304]":
                                             "text-[#6C6C6C] hover:text-[#F18304] hover:border-[#F18304] border-[#6C6C6C]"
                                         }`}
-                                        onClick={()=>{setSelectedCategory("trash")}}>쓰레기 처리 인증
+                                        onClick={()=>{setSelectedCategory("WASTE_DISPOSAL")}}>쓰레기 처리 인증
                                     </div>
                                 </div>
                                 <div
@@ -102,163 +136,45 @@ export default function certificationBoardListPage() {
                             </div>
 
                             {/* 후기글들 */}
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center text-[#FFA500]'>쓰레기 처리 인증</div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>진짜 대박이에요</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 34</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center text-[#FFA500]'>쓰레기 처리 인증</div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>진짜 대박이에요</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 34</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center text-[#FFA500]'>쓰레기 처리 인증</div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>진짜 대박이에요</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 34</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center text-[#FFA500]'>쓰레기 처리 인증</div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>진짜 대박이에요</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 34</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center text-[#FFA500]'>쓰레기 처리 인증</div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>진짜 대박이에요</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 34</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center text-[#FFA500]'>쓰레기 처리 인증</div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>진짜 대박이에요</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 34</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
+                            {data?.snsAuthPosts?.map((postdata,index)=>{
 
+                                return(<><div className='flex justify-between w-full gap-2 cursor-pointer' onClick={()=>{router.push(`/certificationBoardDetail/${postdata?.id}`)}}>
+                                <div className='flex gap-7'>
+                                    <div className='flex flex-col justify-center text-[#FFA500]'>{postdata?.postType=="ACCOMMODATION_VISIT"?"숙소 방문 인증":"쓰레기 처리 인증"}</div>
+                                    <div className='flex justify-start w-auto'>
+                                        <div className='flex flex-col'>
+                                            <div className='flex gap-2'>
+                                                <div className='flex flex-col justify-center'>
+                                                    <div>{postdata?.title}</div>
+                                                </div>
+                                                <div className='flex flex-col justify-end'>
+                                                    <div className='text-[0.665rem] text-[#878787]'>의견 34</div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>{postdata?.contents}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>{new Date(postdata?.createdAt).toLocaleDateString().replaceAll(" ","")}
+                                </div>
+                            </div>
+                            <div className='flex flex-col justify-center py-[1.375rem]'>
+                                <hr/>
+                            </div>
+                            </>)
+                            })}
 
                             <div className='flex justify-center gap-2 cursor-pointer'>
-                                <div className='text-[0.665rem] text-base'>1</div>
-                                <div className='text-[0.665rem] text-base'>2</div>
-                                <div className='text-[0.665rem] text-base'>3</div>
-                                <div className='text-[0.665rem] text-base'>4</div>
+                                {Array.from({length: data?.totalPages}).map((_, index) => (
+                                    <p key={index}
+                                    className={`text-[1rem] ${page === index ? 'weight-600' : 'text-[#6C6C6C] hover:text-black'}`}
+                                    onClick={() => handlePageClick(index)}
+                                    >
+                                        {index + 1}
+                                    </p>
+                                ))}
                             </div>
 
 
