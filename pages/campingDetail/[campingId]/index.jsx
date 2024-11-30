@@ -99,7 +99,7 @@ export default function campingDetailPage() {
                     }
                 }
             );
-            alert("캠핑장 예약이 완료되었습니다.  예약 현황을 조회하고 싶으신 경우, 예약 조회 메뉴에서 확인해주세요!");
+            alert("캠핑장 예약이 완료되었습니다.  예약 현황을 조회하고 싶으신 경우, 예약/구매 조회 메뉴에서 확인해주세요!");
             setModal(false);
         } catch (error) {
             console.error("예약 중 오류 발생: ", error);
