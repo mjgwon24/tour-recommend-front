@@ -128,17 +128,17 @@ export default function certificationBoardDetailPage() {
                                                     <div>{data?.title}</div>
                                                 </div>
                                                 <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 {CommentsData?.totalElements}</div>
+                                                    <div className='text-[0.8rem] text-[#878787]'>의견 {CommentsData?.totalElements}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787] text-[0.665rem]'>{new Date(data?.createAt).toLocaleDateString().replaceAll(" ","")}</div>
+                                    <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787] text-[0.7rem]'>{new Date(data?.createAt).toLocaleDateString().replaceAll(" ","")}</div>
                                 </div>
                                 <div className='flex flex-col justify-center py-[1.375rem]'>
                                     <hr/>
                                 </div>
-                                <div className='text-[0.665rem] text-[#404040] w-max-[925px] pb-[6.15125rem]'>{data?.contents}</div>
+                                <div className='text-[0.9rem] text-[#404040] w-max-[925px] pb-[6.15125rem]'>{data?.contents}</div>
 
 
                                 {/* 구분선 */}
@@ -147,12 +147,12 @@ export default function certificationBoardDetailPage() {
                                 </div>
                                 
                                 {/* 의견 헤더 */}
-                                <div className='flex gap-2'>
+                                <div className='flex gap-2 items-center'>
                                     <div className='flex flex-col justify-center'>
                                         <div>의견</div>
                                     </div>
                                     <div className='flex flex-col justify-end'>
-                                        <div className='text-[0.665rem] text-[#878787]'>{CommentsData?.totalElements}개</div>
+                                        <div className='text-[0.8rem] text-[#878787]'>{CommentsData?.totalElements}개</div>
                                     </div>
                                 </div>
 
@@ -165,8 +165,8 @@ export default function certificationBoardDetailPage() {
                                             <img src="/images/icon/profile.png" className='w-6 h-6'/>
                                         </div>
                                         <div className='flex flex-col'>
-                                            <div className='text-[0.665rem] text-[#878787]'>{new Date(comment.createdAt).toLocaleDateString().replaceAll(" ","")}</div>
-                                            <div className='text-[0.665rem] text-[#404040]'>{comment.contents}</div>
+                                            <div className='text-[0.8rem] text-[#878787]'>{new Date(comment.createdAt).toLocaleDateString().replaceAll(" ","")}</div>
+                                            <div className='text-[0.8rem] text-[#404040]'>{comment.contents}</div>
                                         </div>
                                     </div>
                                     )
