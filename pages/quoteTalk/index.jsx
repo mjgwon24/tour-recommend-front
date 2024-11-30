@@ -2,11 +2,11 @@ import {useRouter} from 'next/router';
 import { RiImageAddLine } from "@react-icons/all-files/ri/RiImageAddLine"
 import { TiDelete } from "@react-icons/all-files/ti/TiDelete";
 import {useState,useRef,React} from 'react';
+import axios from "axios";
 
 export default function quoteTalkPage() {
 
     const [placeholder, setPlaceholder] = useState(true);
-    const [text,setText] = useState("");
     const inputRef = useRef(null);
     const router = useRouter();
 
@@ -14,6 +14,43 @@ export default function quoteTalkPage() {
     const handleTextarea = (e)=>{
         setPlaceholder(false);
         inputRef.current.focus();
+    }
+
+    const [phoneNumber,setPhoneNumber] = useState("");
+    const [email,setEmail] = useState("");
+    const [title,setTitle] = useState("");
+    const [text,setText] = useState("");
+
+    const isFormValid = () => {
+        return phoneNumber && email && title && text;
+    }
+
+    const fetchQuoteTalk = async () => {
+        if (!isFormValid()) return;
+        try {
+            const response = await axios.post(
+                `http://localhost:8081/estimate-talk/posts`,
+                {
+                    "phoneNumber": phoneNumber,
+                    "email": email,
+                    "title": title,
+                    "contents": text
+                }
+            );
+
+            await router.push(`/quoteTalkDetail/${response.data.data.id}`);
+        } catch (error) {
+            alert("견적톡 작성에 실패했습니다.");
+            throw error;
+        }
+    }
+
+    const handleRequestClick = () => {
+        if (!isFormValid()) {
+            alert("모든 항목을 입력해주세요.");
+            return;
+        }
+        fetchQuoteTalk();
     }
 
 
@@ -54,15 +91,15 @@ export default function quoteTalkPage() {
                 <div className="flex flex-col gap-7 max-w-[860px]">
                     <div className="flex flex-col">
                         <label className="text-[1.49625rem] weight-700 pb-1">전화번호</label>
-                        <input type="text" className="rounded-[0.914375rem] w-[21.4878125rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="전화번호를 입력해주세요"></input>
+                        <input type="text" className="rounded-[0.914375rem] w-[21.4878125rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="전화번호를 입력해주세요" onInput={(e) => {setPhoneNumber(e.target.value)}}></input>
                     </div>
                     <div className="flex flex-col">
                         <label className="text-[1.49625rem] weight-700 pb-1">이메일</label>
-                        <input type="text" className="rounded-[0.914375rem] w-[21.4878125rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="이메일을 입력해주세요"></input>
+                        <input type="text" className="rounded-[0.914375rem] w-[21.4878125rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="이메일을 입력해주세요" onInput={(e) => {setEmail(e.target.value)}}></input>
                     </div>
                     <div className="flex flex-col">
                         <label className="text-[1.49625rem] weight-700 pb-1">제목</label>
-                        <input type="text" className="rounded-[0.914375rem] w-[33.6240625rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="제목을 입력해주세요"></input>
+                        <input type="text" className="rounded-[0.914375rem] w-[33.6240625rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="제목을 입력해주세요" onInput={(e) => {setTitle(e.target.value)}}></input>
                     </div>
                     <div className="flex flex-col">
                         <label className="text-[1.49625rem] weight-700 pb-1">조건</label>
@@ -81,7 +118,10 @@ export default function quoteTalkPage() {
                             {text}
                         </textarea>
                     </div>
-                    <button className="self-center mt-10 mb-[19.239375rem] rounded-[0.914375rem] w-[18.2875rem] h-[4.15625rem] bg-[#FFA500] text-[1.49625rem] text-white weight-700  hover:bg-[#F18304]">견적 요청!</button>
+                    <button className="self-center mt-10 mb-[19.239375rem] rounded-[0.914375rem] w-[18.2875rem] h-[4.15625rem] bg-[#FFA500] text-[1.49625rem] text-white weight-700  hover:bg-[#F18304]"
+                    onClick={handleRequestClick}>
+                        견적 요청!
+                    </button>
                 </div>
             </div>
             
