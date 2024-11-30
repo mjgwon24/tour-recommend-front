@@ -1,5 +1,7 @@
 import {useRouter} from "next/router";
-import React from "react";
+import React, {useState} from "react";
+import axios from "axios";
+import {useQuery} from "@tanstack/react-query";
 
 /**
  * Camping Reservation Page
@@ -8,6 +10,32 @@ import React from "react";
  */
 export default function campingReservationPage() {
     const router = useRouter();
+    const [page, setPage] = useState(0);
+
+    // 캠핑장 데이터 반환
+    const fetchCampingSites = async (page = 1) => {
+        const response = await axios.get(`http://localhost:8081/reservation/campsites?pageNumber=${page}&size=5`);
+        return response.data;
+    }
+
+    const {data, error, isLoading} = useQuery({
+        queryKey: ['campingSites', page],
+        queryFn: () => fetchCampingSites(page),
+        select: (data) => data.data,
+    });
+
+    const handlePageClick = (newPage) => {
+        setPage(newPage);
+    }
+
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
 
     return (
         <div className="flex flex-col items-center min-h-screen min-w-[76.6rem] bg-[#FFA500]">
@@ -37,7 +65,7 @@ export default function campingReservationPage() {
                     </button>
                     <button
                         className="rounded-[0.914375rem] weight-700 bg-[white] w-[10rem] py-[0.595rem] hover:bg-[#F18304] hover:text-[white]"
-                        onClick={() => router.push('/allCourses')}>예약 조회
+                        onClick={() => router.push('/reservationAuth')}>예약 조회
                     </button>
                 </div>
             </div>
@@ -47,151 +75,51 @@ export default function campingReservationPage() {
                 <div className='flex justify-center'>
                     <div className='flex flex-col rounded-[0.9125rem] py-[1.75rem] w-[57.375rem]'>
                         {/* 리스트 */}
-                        <div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center'>
-                                        <img src="/images/campingThumbs/thumb1.png"
-                                             className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
-                                    </div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex items-center gap-3 pt-[8px]'>
-                                                <p className="weight-700 text-[1.2rem]">밤부사운드 캠핑장</p>
-                                                <p className='text-[0.9rem] weight-500'>⭐ 4.17</p>
+                        {data ? (
+                            data.campsites.map(campsite => (
+                                <div key={campsite.id}>
+                                    <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'
+                                         onClick={() => router.push(`/campingDetail/${campsite.id}`)}
+                                    >
+                                        <div className='flex gap-7'>
+                                            <div className='flex flex-col justify-center'>
+                                                <img src={campsite.thumbnailPath}
+                                                     className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
                                             </div>
-                                            <p className='text-[0.875rem] text-[#404040] weight-500'>
-                                                경상북도 경주시 천북면 갈곡삼막길 14-21
-                                            </p>
+                                            <div className='flex justify-start w-auto'>
+                                                <div className='flex flex-col'>
+                                                    <div className='flex items-center gap-3 pt-[8px]'>
+                                                        <p className="weight-700 text-[1.2rem]">{campsite.name}</p>
+                                                        <p className='text-[0.9rem] weight-500'>⭐ {campsite.rating}</p>
+                                                    </div>
+                                                    <p className='text-[0.875rem] text-[#404040] weight-500'>
+                                                        {campsite.location}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='flex flex-col justify-end'>
+                                            <p className="text-[0.9rem] text-[#404040] weight-500">숙박 15:00 ~</p>
+                                            <p className="text-[1.05rem] weight-800">{campsite.price.toLocaleString()}원</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] weight-500">숙박 15:00 ~</p>
-                                    <p className="text-[1.05rem] weight-800">75,000원</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center'>
-                                        <img src="/images/campingThumbs/thumb2.png"
-                                             className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
-                                    </div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex items-center gap-3 pt-[8px]'>
-                                                <p className="weight-700 text-[1.2rem]">뷰델카라반 캠핑장</p>
-                                                <p className='text-[0.9rem] weight-500'>⭐ 4.34</p>
-                                            </div>
-                                            <p className='text-[0.875rem] text-[#404040] weight-500'>
-                                                경상북도 경주시 감포읍 감포로 329-34
-                                            </p>
-                                        </div>
+                                    <div className='flex flex-col justify-center py-[1.375rem]'>
+                                        <hr/>
                                     </div>
                                 </div>
-                                <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] weight-500">숙박 15:00 ~</p>
-                                    <p className="text-[1.05rem] weight-800">89,000원</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center'>
-                                        <img src="/images/campingThumbs/thumb3.png"
-                                             className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
-                                    </div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex items-center gap-3 pt-[8px]'>
-                                                <p className="weight-700 text-[1.2rem]">캠프ing 오토캠핑장</p>
-                                                <p className='text-[0.9rem] weight-500'>⭐ 4.2</p>
-                                            </div>
-                                            <p className='text-[0.875rem] text-[#404040] weight-500'>
-                                                경북 경주시 강동면 호명큰골길 47
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] weight-500">숙박 15:00 ~</p>
-                                    <p className="text-[1.05rem] weight-800">63,000원</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center'>
-                                        <img src="/images/campingThumbs/thumb4.png"
-                                             className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
-                                    </div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex items-center gap-3 pt-[8px]'>
-                                                <p className="weight-700 text-[1.2rem]">두바퀴로 가는 자동차</p>
-                                                <p className='text-[0.9rem] weight-500'>⭐ 4.4</p>
-                                            </div>
-                                            <p className='text-[0.875rem] text-[#404040] weight-500'>
-                                                외칠일부길 278-182
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] weight-500">숙박 15:00 ~</p>
-                                    <p className="text-[1.05rem] weight-800">70,000원</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center'>
-                                        <img src="/images/campingThumbs/thumb5.png"
-                                             className="w-[12.5rem] h-[8.125rem] rounded-[0.875rem]"/>
-                                    </div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex items-center gap-3 pt-[8px]'>
-                                                <p className="weight-700 text-[1.2rem]">더숲 캠핑장</p>
-                                                <p className='text-[0.9rem] weight-500'>⭐ 4.4</p>
-                                            </div>
-                                            <p className='text-[0.875rem] text-[#404040] weight-500'>
-                                                경북 경주시 내남면 내외로 731-107
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] weight-500">숙박 15:00 ~</p>
-                                    <p className="text-[1.05rem] weight-800">65,000원</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                        </div>
+                            ))) : (
+                            <div className="flex flex-col items-center p-10">캠핑장 데이터가 없습니다.</div>
+                        )}
 
                         <div className='flex justify-center gap-2 cursor-pointer'>
-                            <p className='text-[1rem] weight-600'>1</p>
-                            <p className='text-[1rem] text-[#6C6C6C] hover:text-black'>2</p>
-                            <p className='text-[1rem] text-[#6C6C6C] hover:text-black'>3</p>
+                            {Array.from({length: data.totalPages}).map((_, index) => (
+                                <p key={index}
+                                   className={`text-[1rem] ${page === index ? 'weight-600' : 'text-[#6C6C6C] hover:text-black'}`}
+                                   onClick={() => handlePageClick(index)}
+                                >
+                                    {index + 1}
+                                </p>
+                            ))}
                         </div>
                     </div>
                 </div>

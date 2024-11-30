@@ -2,7 +2,6 @@ import {useRouter} from 'next/router';
 import React, { useState, useCallback,useEffect  } from 'react';
 import {useQuery} from "@tanstack/react-query";
 import axios from "axios";
-import { resolve } from 'styled-jsx/css';
 
 /**
  * certificationBoardListPage ui
@@ -12,13 +11,16 @@ import { resolve } from 'styled-jsx/css';
 
 export default function certificationBoardListPage() {
 
+
     const [selectedCategory,setSelectedCategory] = useState("ACCOMMODATION_VISIT");
+
     const router = useRouter();
     const [page, setPage] = useState(0);
 
     const handlePageClick = (newPage) => {
         setPage(newPage);
     }
+
     const fetchCertificationBoards = async (category, page) => {
         try {
             const response = await axios.get(`http://localhost:8081/sns-auth/posts/category/${category}?pageNumber=${page}&size=10`);
@@ -36,6 +38,16 @@ export default function certificationBoardListPage() {
     });
 
 
+
+    const {data, error, isLoading} = useQuery({
+        queryKey: ['certificationBoards', page],
+        queryFn: fetchCertificationBoards,
+        select: (data) => data.data,
+    });
+
+    useEffect(()=>{
+        fetchCertificationBoards();
+    },[page]);
 
     useEffect(()=>{
         console.log(data);
@@ -139,6 +151,7 @@ export default function certificationBoardListPage() {
                             {data?.snsAuthPosts?.map((postdata,index)=>{
 
                                 return(<><div className='flex justify-between w-full gap-2 cursor-pointer' onClick={()=>{router.push(`/certificationBoardDetail/${postdata?.id}`)}}>
+
                                 <div className='flex gap-7'>
                                     <div className='flex flex-col justify-center text-[#FFA500]'>{postdata?.postType=="ACCOMMODATION_VISIT"?"숙소 방문 인증":"쓰레기 처리 인증"}</div>
                                     <div className='flex justify-start w-auto'>

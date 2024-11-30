@@ -24,7 +24,7 @@ export default function homePage() {
                 <div className="flex flex-col items-center gap-[5.625rem]">
                     <div className="cursor-pointer hover:bg-[#f3efe7] flex items-center gap-[.375rem] bg-white py-4 px-14 rounded-[.875rem]"
                          style={{boxShadow: "0rem .8728rem 1.6625rem .0831rem #C7760D"}}
-                         onClick={() => router.push('/survey1')}
+                         onClick={() => router.push('/accommodateReservation')}
                     >
                         <p className="text-[1.3125rem] text-[#FF7700] weight-700">경주 여정 떠나기</p>
                         <img src="/images/icon/vector_right_orange.png"
