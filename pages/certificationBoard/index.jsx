@@ -2,12 +2,12 @@ import {useRouter} from 'next/router';
 import { RiImageAddLine } from "@react-icons/all-files/ri/RiImageAddLine"
 import { TiDelete } from "@react-icons/all-files/ti/TiDelete";
 import {useState,useRef,React} from 'react';
+import axios from "axios";
 
 export default function certificationBoardPage() {
 
     const [certMode, setCertMode] = useState("room");
     const [placeholder, setPlaceholder] = useState(true);
-    const [text,setText] = useState("");
     const inputRef = useRef(null);
     const router = useRouter();
 
@@ -21,6 +21,61 @@ export default function certificationBoardPage() {
         const selectedFiles = Array.from(event.target.files);
         setFiles(selectedFiles);
     };
+
+
+    const [snsUserName,setSnsUserName] = useState("");
+    const [phoneNumber,setPhoneNumber] = useState("");
+    const [email,setEmail] = useState("");
+    const [title,setTitle] = useState("");
+    const [text,setText] = useState("");
+    
+    const SubmitCertification = async() => {
+        if(files.length!==0){
+            const formData = new FormData();
+            Array.from(files).forEach((file) => {
+                formData.append("files", file);
+            });
+            const response = await axios.post("http://localhost:8081/images", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            const res = await axios.post("http://localhost:8081/sns-auth/posts",{
+                "postType" : certMode=="room"?"ACCOMMODATION_VISIT":"WASTE_DISPOSAL",
+                "snsUserName": snsUserName,
+                "phoneNumber": phoneNumber,
+                "email": email,
+                "title": title,
+                "contents": text,
+                "imagePathList": response?.data?.data
+                })
+            if(res.status!=200){
+                alert("게시글 등록에 실패했습니다")
+            }
+            else{
+                router.push(`/certificationBoardDetail/${res.data.data.id}`);
+            }
+        }
+        else{
+            const res = await axios.post("http://localhost:8081/sns-auth/posts",{
+                "postType" : certMode=="room"?"ACCOMMODATION_VISIT":"WASTE_DISPOSAL",
+                "snsUserName": snsUserName,
+                "phoneNumber": phoneNumber,
+                "email": email,
+                "title": title,
+                "contents": text,
+                "imagePathList": []
+                })
+            if(res.status!=200){
+                alert("게시글 등록에 실패했습니다")
+            }
+            else{
+                router.push(`/certificationBoardDetail/${res.data.data.id}`);
+            }
+        }
+        
+    }
 
     return (
         <div className="flex flex-col bg-[#FFA500]">
@@ -95,19 +150,19 @@ export default function certificationBoardPage() {
                     </div>
                     <div className="flex flex-col">
                         <label className="text-[1.49625rem] weight-700 pb-1">인스타 닉네임</label>
-                        <input type="text" className="rounded-[0.914375rem] w-[21.4878125rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="인스타 user name을 입력해주세요"></input>
+                        <input type="text" className="rounded-[0.914375rem] w-[21.4878125rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="인스타 user name을 입력해주세요" onInput={(e)=>{setSnsUserName(e.target.value)}}></input>
                     </div>
                     <div className="flex flex-col">
                         <label className="text-[1.49625rem] weight-700 pb-1">전화번호</label>
-                        <input type="text" className="rounded-[0.914375rem] w-[21.4878125rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="전화번호를 입력해주세요"></input>
+                        <input type="text" className="rounded-[0.914375rem] w-[21.4878125rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="전화번호를 입력해주세요" onInput={(e)=>{setPhoneNumber(e.target.value)}}></input>
                     </div>
                     <div className="flex flex-col">
                         <label className="text-[1.49625rem] weight-700 pb-1">이메일</label>
-                        <input type="text" className="rounded-[0.914375rem] w-[21.4878125rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="이메일을 입력해주세요"></input>
+                        <input type="text" className="rounded-[0.914375rem] w-[21.4878125rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="이메일을 입력해주세요" onInput={(e)=>{setEmail(e.target.value)}}></input>
                     </div>
                     <div className="flex flex-col">
                         <label className="text-[1.49625rem] weight-700 pb-1">제목</label>
-                        <input type="text" className="rounded-[0.914375rem] w-[33.6240625rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="제목을 입력해주세요"></input>
+                        <input type="text" className="rounded-[0.914375rem] w-[33.6240625rem] h-[3.0340625rem] bg-[#F1F1F1] px-[1.205rem]" placeholder="제목을 입력해주세요" onInput={(e)=>{setTitle(e.target.value)}}></input>
                     </div>
                     <div className="flex flex-col">
                         <label className="text-[1.49625rem] weight-700 pb-1">인스타그램 계정 인증</label>
@@ -123,7 +178,7 @@ export default function certificationBoardPage() {
                         ref={inputRef}
                         onFocus={()=>{setPlaceholder(false)}}
                         onBlur={()=>{setPlaceholder(text=="")}}
-                        onChange={(e)=>{setText(e.target.value)}}>
+                        onInput={(e)=>{setText(e.target.value)}}>
                             {text}
                         </textarea>
                     </div>
@@ -136,14 +191,13 @@ export default function certificationBoardPage() {
                                 return(<div key={index} className="flex items-center justify-between gap-[0.0625rem] w-[142px] pl-[20px] pr-[0.125rem] py-[0.3125rem] rounded-[0.625rem] border-[0.0625rem] border-solid border-[#bdbdbd]">
                                 <div 
                                 className="cursor-pointer text-[0.875rem] overflow-hidden text-ellipsis whitespace-nowrap max-w-[90px]"
-
                                  title={value.name}>{value.name}</div>
                                 <TiDelete className="w-[22px] h-[22px] cursor-pointer text-[gray]"></TiDelete>
                             </div>)
                             })}
                         </div>
                     </div>
-                    <button className="self-center mt-10 mb-[19.239375rem] rounded-[0.914375rem] w-[18.2875rem] h-[4.15625rem] bg-[#FFA500] text-[1.49625rem] text-white weight-700  hover:bg-[#F18304]">인증하기</button>
+                    <button className="self-center mt-10 mb-[19.239375rem] rounded-[0.914375rem] w-[18.2875rem] h-[4.15625rem] bg-[#FFA500] text-[1.49625rem] text-white weight-700  hover:bg-[#F18304]" onClick={SubmitCertification}>인증하기</button>
                 </div>
             </div>
             
