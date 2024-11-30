@@ -33,28 +33,28 @@ export default function survey2Page() {
                             <div className="flex justify-center items-center pl-[8rem]">
                                 <div className="flex flex-col gap-8">
                                     <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'male' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                         onClick={() => handleClick('male')}>
+                                ${selected === 'yes' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                         onClick={() => handleClick('yes')}>
                                         <div className="w-full justify-items-center pl-[1.75rem]">
                                             <p className="weight-700 text-[1.3125rem]">🙆‍♂️
                                                 있었으면 좋겠어요!</p>
                                         </div>
                                         <div className="w-1/11">
-                                            <img src={`${selected === 'male'
+                                            <img src={`${selected === 'yes'
                                                 ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
                                                  className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                         </div>
                                     </div>
 
                                     <div className={`cursor-pointer hover:bg-[#FFEFD2] flex items-center justify-between border-2 rounded-[0.875rem] w-[31.25rem] py-[1.125rem] px-[1.25rem]
-                                ${selected === 'female' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
-                                         onClick={() => handleClick('female')}>
+                                ${selected === 'no' ? 'border-[#FFA500] bg-[#FFEFD2]' : 'border-[#FFE0A8]'}`}
+                                         onClick={() => handleClick('no')}>
                                         <div className="w-full justify-items-center pl-[1.75rem]">
                                             <p className="weight-700 text-[1.3125rem]">🙅‍♂️
                                             없었으면 좋겠어요!</p>
                                         </div>
                                         <div className="w-1/11">
-                                            <img src={`${selected === 'female'
+                                            <img src={`${selected === 'no'
                                                 ? '/images/icon/check_full.png' : '/images/icon/check_empty.png'}`}
                                                  className="w-[1.75rem] h-[1.75rem]" alt="v"/>
                                         </div>

@@ -1,5 +1,6 @@
 import {useEffect, useState, useRef} from 'react';
 import {router} from 'next/client';
+import axios from 'axios';
 
 export default function analyzingPage() {
     // 분석 진행 단계
@@ -13,8 +14,21 @@ export default function analyzingPage() {
 
     // 현재 진행중 단계
     const [currentStep, setCurrentStep] = useState(0);
+    const [menuResult, setMenuResult] = useState(null);
     const currentStepRef = useRef(currentStep);
+    
 
+    const getResult = async() => {
+        const { selected1, selected2, selected3, selected4 } = router.query;
+        const result = await axios.get(`http://localhost:8060/predict?material=${selected1}&soup=${selected2}&like_taste=${selected3}&cook_level=${selected4}`);
+        console.log(result);
+        setMenuResult(result)
+    }
+
+
+    useEffect(()=>{
+        getResult()
+    },[router])
     // 현재 진행중 단계 업데이트 (currentStep 업데이트 시 ref 동기화)
     useEffect(() => {
         currentStepRef.current = currentStep;
@@ -27,7 +41,9 @@ export default function analyzingPage() {
         // 마지막 단계일 경우 5초 기다리고 분석 완료 페이지로 이동
         if (currentStep === steps.length - 1) {
             setTimeout(() => {
-                router.push('/analysisComplete');
+                router.push({pathname:`/analysisComplete/${menuResult?.data?.recommended_menu_number}`,
+                    number: menuResult?.data?.recommended_menu_number
+                })
             }, 5000);
             return;
         }

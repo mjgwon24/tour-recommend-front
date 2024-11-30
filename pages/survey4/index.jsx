@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import {router} from "next/client";
-
 export default function survey4Page() {
     const [selected, setSelected] = useState(null);
 
@@ -8,19 +7,9 @@ export default function survey4Page() {
     const handleClick = (id) => {
         setSelected(id);
     };
-    const { selected1, selected2, selected3, selected4 } = router.query;
 
-    const handleSubmit = () => {
-        const allAnswers = {
-            question1: selected1,
-            question2: selected2,
-            question3: selected3,
-            question4: selected4,
-        };
-    };
     return(
         <div className="flex flex-col items-center bg-[#FFA500] h-screen min-w-[76.6875rem] justify-items-center content-center">
-            <button onClick={handleSubmit}>sdfsdfsdf</button>
             <div className="w-[76.6875rem]">
                 <div className="flex flex-col items-center gap-20">
                     <div className="flex flex-col gap-8 w-[76.6875rem] pt-[4.375rem] items-center">
@@ -89,7 +78,9 @@ export default function survey4Page() {
                             <div className="w-[3rem] content-center">
                                 <img className={`w-12 h-12 cursor-pointer
                                 ${selected === null ? 'hidden' : 'block'}`}
-                                     onClick={() => router.push('/analyzing')}
+                                     onClick={() => router.push({pathname:'/analyzing',
+                                        query: { ...router.query, selected4: selected }
+                                     })}
                                      src="/images/icon/next_btn.png" alt="다음"/>
                             </div>
                         </div>
