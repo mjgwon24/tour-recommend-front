@@ -39,16 +39,6 @@ export default function certificationBoardListPage() {
 
 
 
-    const {data, error, isLoading} = useQuery({
-        queryKey: ['certificationBoards', page],
-        queryFn: fetchCertificationBoards,
-        select: (data) => data.data,
-    });
-
-    useEffect(()=>{
-        fetchCertificationBoards();
-    },[page]);
-
     useEffect(()=>{
         console.log(data);
     },[data]);
