@@ -87,7 +87,8 @@ import {useQuery} from "@tanstack/react-query";
                             {data && data.estimateTalkPostList.length > 0 ? (
                                 data.estimateTalkPostList.map(quoteTalk => (
                                         <div key={quoteTalk.id}>
-                                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
+                                            <div className='flex justify-between w-full gap-2 cursor-pointer'
+                                            onClick={() => router.push(`/quoteTalkDetail/${quoteTalk?.id}`)}>
                                                 <div className='flex gap-7'>
                                                     <div className='flex justify-start w-auto'>
                                                         <div className='flex flex-col'>
