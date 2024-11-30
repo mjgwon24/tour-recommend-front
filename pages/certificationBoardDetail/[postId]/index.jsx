@@ -1,7 +1,10 @@
 import {useRouter} from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CgProfile } from "@react-icons/all-files/cg/CgProfile"
 import { AiOutlineLike } from "@react-icons/all-files/ai/AiOutlineLike"
+import {useQuery} from "@tanstack/react-query";
+import {useCallback} from "react";
+import axios from "axios";
 /**
  * certificationBoardDetailPage ui
  * @author 김이현
@@ -10,23 +13,41 @@ import { AiOutlineLike } from "@react-icons/all-files/ai/AiOutlineLike"
 
 export default function certificationBoardDetailPage() {
     const router = useRouter();
+    const { postId } = router.query;
 
+    const fetchCertificationDetail = useCallback(async () => {
+        if (!postId) return Promise.resolve(null);
+        try {
+            const response = await axios.get(
+                `http://localhost:8081/sns-auth/posts/${postId}`
+            );
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }, [postId]);
 
+    const {data, error, isLoading} = useQuery({
+        queryKey: ['certificationDetail', postId],
+        queryFn: fetchCertificationDetail,
+        enabled: !!postId,
+        select: (data) => data.data,
+    });
+    useEffect(()=>{
+        fetchCertificationDetail();
+    },[postId]);
 
     return(
-        <>
-
+        <>  
             <div className="flex flex-col gap-[1.28875rem] bg-[#FFA500] min-w-[76.6875rem]">
-
                 <div className="flex flex-col items-center gap-[1.28875rem]">
                     <div className="flex flex-col items-center">
                         <h1 className="text-[2rem] weight-700 text-[white] pt-[4.15625rem]">경주의 밤 🌲</h1>
                         <div className="flex gap-[1.371875rem] pt-[2.401875rem] pb-[2.1575rem] weight-700 text-[#FFA500]">
                             <button
                                 className="rounded-[0.914375rem] weight-700 w-[10rem] py-[0.595rem] bg-[#F18304] text-[white]"
-                                onClick={() => router.push('/accommodateReservation')}>SNS 인증게시판
+                                onClick={() => router.push('/certificationBoardList')}>SNS 인증게시판
                             </button>
-
                             <button
                                 className="rounded-[0.914375rem] weight-700 bg-[white] w-[10rem] py-[0.595rem] hover:bg-[#F18304] hover:text-[white]"
                                 onClick={() => router.push('/quoteTalkList')}>견적톡
@@ -58,7 +79,7 @@ export default function certificationBoardDetailPage() {
                                         <div className='flex justify-start w-auto'>
                                             <div className='flex gap-2'>
                                                 <div className='flex flex-col justify-center'>
-                                                    <div>진짜 대박이에요</div>
+                                                    <div>{data?.title}</div>
                                                 </div>
                                                 <div className='flex flex-col justify-end'>
                                                     <div className='text-[0.665rem] text-[#878787]'>의견 34</div>
@@ -66,13 +87,13 @@ export default function certificationBoardDetailPage() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787] text-[0.665rem]'>24.11.10</div>
+                                    <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787] text-[0.665rem]'>{new Date(data?.createAt).toLocaleDateString().replaceAll(" ","")}</div>
                                 </div>
                                 <div className='flex flex-col justify-center py-[1.375rem]'>
                                     <hr/>
                                 </div>
 
-                                <div className='text-[0.665rem] text-[#404040] w-max-[925px] pb-[6.15125rem]'>아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박아무튼대박</div>
+                                <div className='text-[0.665rem] text-[#404040] w-max-[925px] pb-[6.15125rem]'>{data?.contents}</div>
 
 
                                 {/* 구분선 */}
