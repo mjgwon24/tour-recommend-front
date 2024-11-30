@@ -138,42 +138,48 @@ export default function certificationBoardListPage() {
                             </div>
 
                             {/* 후기글들 */}
-                            {data?.snsAuthPosts?.map((postdata,index)=>{
-
-                                return(<><div className='flex justify-between w-full gap-2 cursor-pointer' onClick={()=>{router.push(`/certificationBoardDetail/${postdata?.id}`)}}>
-
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center text-[#FFA500]'>{postdata?.postType=="ACCOMMODATION_VISIT"?"숙소 방문 인증":"쓰레기 처리 인증"}</div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>{postdata?.title}</div>
+                            {data && data.snsAuthPosts.length > 0 ? (
+                                    data.snsAuthPosts.map(postdata => (
+                                        <div key={postdata.id}>
+                                            <div className='flex justify-between w-full gap-2 cursor-pointer'
+                                                 onClick={() => router.push(`/certificationBoardDetail/${postdata?.id}`)}>
+                                                <div className='flex gap-7'>
+                                                    <div
+                                                        className='flex flex-col justify-center text-[#FFA500]'>{postdata?.postType == "ACCOMMODATION_VISIT" ? "숙소 방문 인증" : "쓰레기 처리 인증"}</div>
+                                                    <div className='flex justify-start w-auto'>
+                                                        <div className='flex flex-col'>
+                                                            <div className='flex gap-2'>
+                                                                <div className='flex flex-col justify-center'>
+                                                                    <p className="weight-600">{postdata?.title}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                className='text-[0.8rem] text-[#404040] w-max-[25rem]'>
+                                                                {postdata?.contents?.length > 50
+                                                                    ? `${postdata.contents.slice(0, 50)}...`
+                                                                    : postdata.contents}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 34</div>
+                                                <div
+                                                    className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>
+                                                    {new Date(postdata?.createdAt).toLocaleDateString().replaceAll(" ", "")}
                                                 </div>
                                             </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>{postdata?.contents}
+                                            <div className='flex flex-col justify-center py-[1.375rem]'>
+                                                <hr/>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>{new Date(postdata?.createdAt).toLocaleDateString().replaceAll(" ","")}
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            </>)
-                            })}
+                                ))) : (
+                                <div className="flex flex-col items-center p-10">작성된 글이 없습니다.</div>
+                                )}
 
                             <div className='flex justify-center gap-2 cursor-pointer'>
                                 {Array.from({length: data?.totalPages}).map((_, index) => (
                                     <p key={index}
-                                    className={`text-[1rem] ${page === index ? 'weight-600' : 'text-[#6C6C6C] hover:text-black'}`}
-                                    onClick={() => handlePageClick(index)}
+                                       className={`text-[1rem] ${page === index ? 'weight-600' : 'text-[#6C6C6C] hover:text-black'}`}
+                                       onClick={() => handlePageClick(index)}
                                     >
                                         {index + 1}
                                     </p>
