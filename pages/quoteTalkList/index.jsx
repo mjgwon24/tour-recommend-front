@@ -1,16 +1,40 @@
 import {useRouter} from 'next/router';
 import React, { useState } from 'react';
+import axios from "axios";
+import {useQuery} from "@tanstack/react-query";
 /**
  * quoteTalkListPage ui
  * @author 김이현
  */
-
-
  export default function quoteTalkListPage() {
-
-    const [selectedCategory,setSelectedCategory] = useState("room");
     const router = useRouter();
 
+    const [page, setPage] = useState(0);
+    const [selectedCategory,setSelectedCategory] = useState("room");
+
+    // 견적톡 데이터 반환
+    const fetchQuoteTalks = async (page = 0) => {
+        const response = await axios.get(`http://localhost:8081/estimate-talk/posts?pageNumber=${page}&size=5`);
+        return response.data;
+    }
+
+    const {data, error, isLoading} = useQuery({
+        queryKey: ['quoteTalks', page],
+        queryFn: () => fetchQuoteTalks(page),
+        select: (data) => data.data,
+    });
+
+    const handlePageClick = (newPage) => {
+        setPage(newPage);
+    }
+
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
 
 
     return(
@@ -60,157 +84,50 @@ import React, { useState } from 'react';
                             </div>
 
                             {/* 후기글들 */}
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>견적 요청합니다</div>
+                            {data && data.estimateTalkPostList.length > 0 ? (
+                                data.estimateTalkPostList.map(quoteTalk => (
+                                        <div key={quoteTalk.id}>
+                                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
+                                                <div className='flex gap-7'>
+                                                    <div className='flex justify-start w-auto'>
+                                                        <div className='flex flex-col'>
+                                                            <div className='flex gap-2'>
+                                                                <div className='flex flex-col justify-center'>
+                                                                    <p className="weight-600">{quoteTalk?.title}</p>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                className='text-[0.8rem] text-[#404040] w-max-[25rem]'>{quoteTalk?.contents?.length > 50
+                                                                ? `${quoteTalk.contents.slice(0, 50)}...`
+                                                                : quoteTalk.contents}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 4</div>
+                                                <div
+                                                    className="text-[0.8rem] text-[#404040] w-max-[25rem]">
+                                                    {new Date(quoteTalk?.createAt).toLocaleDateString().replaceAll(" ","")}
                                                 </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>견적 요청 관련 문의 어쩌고 저쩌고...
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>견적 요청합니다</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 4</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>견적 요청 관련 문의 어쩌고 저쩌고...
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>견적 요청합니다</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 4</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>견적 요청 관련 문의 어쩌고 저쩌고...
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>견적 요청합니다</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 4</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>견적 요청 관련 문의 어쩌고 저쩌고...
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>견적 요청합니다</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 4</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>견적 요청 관련 문의 어쩌고 저쩌고...
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer'>
-                                <div className='flex gap-7'>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex gap-2'>
-                                                <div className='flex flex-col justify-center'>
-                                                    <div>견적 요청합니다</div>
-                                                </div>
-                                                <div className='flex flex-col justify-end'>
-                                                    <div className='text-[0.665rem] text-[#878787]'>의견 4</div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className='text-[0.665rem] text-[#404040] w-max-[25rem]'>견적 요청 관련 문의 어쩌고 저쩌고...
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-center pr-[1.25rem] text-[#878787]'>24.11.10
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
 
+                                            </div>
+                                            <div className='flex flex-col justify-center py-[1.375rem]'>
+                                            <hr/>
+                                            </div>
+                                        </div>
+                                    )
+                                )) : (
+                                <div className="flex flex-col items-center p-10">작성된 글이 없습니다.</div>
+                            )}
 
                             <div className='flex justify-center gap-2 cursor-pointer'>
-                                <div className='text-[0.665rem] text-base'>1</div>
-                                <div className='text-[0.665rem] text-base'>2</div>
-                                <div className='text-[0.665rem] text-base'>3</div>
-                                <div className='text-[0.665rem] text-base'>4</div>
+                                {Array.from({length: data.totalPages}).map((_, index) => (
+                                    <p key={index}
+                                       className={`text-[1rem] ${page === index ? 'weight-600' : 'text-[#6C6C6C] hover:text-black'}`}
+                                       onClick={() => handlePageClick(index)}
+                                    >
+                                        {index + 1}
+                                    </p>
+                                ))}
                             </div>
 
 
