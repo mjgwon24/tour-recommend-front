@@ -1,5 +1,7 @@
 import {useRouter} from "next/router";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
+import {useQuery} from "@tanstack/react-query";
 
 /**
  * Ingredients Delivery Page
@@ -8,6 +10,37 @@ import React from "react";
  */
 export default function ingredientsDeliveryPage() {
     const router = useRouter();
+    const [category, setCategory] = useState('VEGETABLES');
+    const [page, setPage] = useState(0);
+
+    // 지역 재료 데이터 반환
+    const fetchIngredients = async (category, page) => {
+        const response = await axios.get(`http://localhost:8081/sale/posts/category/${category}?pageNumber=${page}&size=5`);
+        return response.data;
+    }
+
+    const {data, error, isLoading} = useQuery({
+        queryKey: ['ingredients', category, page],
+        queryFn: () => fetchIngredients(category, page),
+        select: (data) => data.data
+    });
+
+    const handlePageClick = (newPage) => {
+        setPage(newPage);
+    }
+
+    const handleCategoryClick = (newCategory) => {
+        setCategory(newCategory);
+        setPage(0);
+    }
+
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
 
     return (
         <div className="flex flex-col items-center min-h-screen min-w-[76.6rem] bg-[#FFA500]">
@@ -45,25 +78,25 @@ export default function ingredientsDeliveryPage() {
             {/* 컨텐츠 영역 */}
             <div className="rounded-t-3xl flex flex-col items-center w-full min-h-screen pt-[2.5rem] bg-white">
                 <div className='flex flex-col justify-center'>
-                    {/* 상단 카테고리, 글쓰기 */}
+                    {/* 상단 카테고리, 맞춤형 식사 추천 받으러가기 */}
                     <div className='flex justify-between px-1.5 pb-8'>
                         <div className='flex justify-between gap-4'>
-                            <div
-                                className='w-[5.375rem] py-[0.25rem] border-2 border-solid border-[#F18304] bg-[#FFEECE] rounded-lg text-[#F18304] text-center weight-600
-                                hover:text-[#F18304] hover:bg-[#FFEECE] hover:border-[#F18304] cursor-pointer'>채소
-                            </div>
-                            <div
-                                className='w-[5.375rem] py-[0.25rem] border-2 border-solid border-[#6C6C6C] rounded-lg text-[#6C6C6C] text-center weight-600
-                                hover:text-[#F18304] hover:bg-[#FFEECE] hover:border-[#F18304] cursor-pointer'>과일
-                            </div>
-                            <div
-                                className='w-[5.375rem] py-[0.25rem] border-2 border-solid border-[#6C6C6C] rounded-lg text-[#6C6C6C] text-center weight-600
-                                hover:text-[#F18304] hover:bg-[#FFEECE] hover:border-[#F18304] cursor-pointer'>정육
-                            </div>
-                            <div
-                                className='w-[5.375rem] py-[0.25rem] border-2 border-solid border-[#6C6C6C] rounded-lg text-[#6C6C6C] text-center weight-600
-                                hover:text-[#F18304] hover:bg-[#FFEECE] hover:border-[#F18304] cursor-pointer'>밀키트
-                            </div>
+                            {['VEGETABLES', 'FRUITS', 'MEAT', 'MEAL_KIT'].map((cat) => (
+                                <div
+                                    key={cat}
+                                    className={`${
+                                        category === cat
+                                            ? 'text-[#F18304] bg-[#FFEECE] border-[#F18304]'
+                                            : 'text-[#6C6C6C] border-[#6C6C6C] hover:text-[#F18304] hover:bg-[#FFEECE] hover:border-[#F18304] cursor-pointer'
+                                    } w-[5.375rem] py-[0.25rem] border-2 border-solid rounded-lg text-center weight-600`}
+                                    onClick={() => handleCategoryClick(cat)}
+                                >
+                                    {cat === 'VEGETABLES' && '채소'}
+                                    {cat === 'FRUITS' && '과일'}
+                                    {cat === 'MEAT' && '정육'}
+                                    {cat === 'MEAL_KIT' && '밀키트'}
+                                </div>
+                            ))}
                         </div>
                         <div
                             className='border-2 border-solid border-[#FFA500] rounded-lg text-[#FFA500] py-[0.25rem] px-4 text-center weight-700
@@ -73,151 +106,53 @@ export default function ingredientsDeliveryPage() {
                     </div>
                     <div className='flex flex-col rounded-[0.9125rem] w-[57.375rem] pb-[5rem]'>
                         {/* 리스트 */}
-                        <div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center'>
-                                        <img src="/images/localIngredientsThumbs/vegetableThumbs/vegetable_1.png"
-                                             className="w-[9rem] h-[8.125rem] rounded-[0.875rem]"/>
-                                    </div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex items-center gap-3 pt-[8px]'>
-                                                <p className="weight-700 text-[1.2rem]">깻잎 30g</p>
-                                                <p className='text-[0.9rem] weight-500'>⭐ 4.47</p>
+                        {data ? (
+                            data.salePostsByCategory.map(salePost => (
+                                <div key={salePost.id}>
+                                    <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'
+                                         onClick={() => router.push(`/ingredientsDeliveryDetail/${salePost.id}`)}
+                                    >
+                                        <div className='flex gap-7'>
+                                            <div className='flex flex-col justify-center'>
+                                                <img
+                                                    src={salePost.thumbnailPath}
+                                                    className="w-[9rem] h-[8.125rem] rounded-[0.875rem]"/>
                                             </div>
-                                            <p className='text-[0.875rem] text-[#404040] weight-500'>
-                                                믿고 먹을 수 있는 깻잎을 합리적인 가격에!
-                                            </p>
+                                            <div className='flex justify-start w-auto'>
+                                                <div className='flex flex-col'>
+                                                    <div className='flex items-center gap-3 pt-[8px]'>
+                                                        <p className="weight-700 text-[1.2rem]">{salePost.name}</p>
+                                                        <p className='text-[0.9rem] weight-500'>⭐ {salePost.rating}</p>
+                                                    </div>
+                                                    <p className='text-[0.875rem] text-[#404040] weight-500'>
+                                                        {salePost.shortDescription}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className='flex flex-col justify-end'>
+                                            <p className="text-[0.9rem] text-[#404040] text-end weight-500">{salePost.sellerName}</p>
+                                            <p className="text-[1.05rem] weight-800">{salePost.price.toLocaleString()}원</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] text-end weight-500">남산채소</p>
-                                    <p className="text-[1.05rem] weight-800">1,490원</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center'>
-                                        <img src="/images/localIngredientsThumbs/vegetableThumbs/vegetable_1.png"
-                                             className="w-[9rem] h-[8.125rem] rounded-[0.875rem]"/>
-                                    </div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex items-center gap-3 pt-[8px]'>
-                                                <p className="weight-700 text-[1.2rem]">깻잎 30g</p>
-                                                <p className='text-[0.9rem] weight-500'>⭐ 4.47</p>
-                                            </div>
-                                            <p className='text-[0.875rem] text-[#404040] weight-500'>
-                                                믿고 먹을 수 있는 깻잎을 합리적인 가격에!
-                                            </p>
-                                        </div>
+                                    <div className='flex flex-col justify-center py-[1.375rem]'>
+                                        <hr/>
                                     </div>
                                 </div>
-                                <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] text-end weight-500">남산채소</p>
-                                    <p className="text-[1.05rem] weight-800">1,490원</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center'>
-                                        <img src="/images/localIngredientsThumbs/vegetableThumbs/vegetable_1.png"
-                                             className="w-[9rem] h-[8.125rem] rounded-[0.875rem]"/>
-                                    </div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex items-center gap-3 pt-[8px]'>
-                                                <p className="weight-700 text-[1.2rem]">깻잎 30g</p>
-                                                <p className='text-[0.9rem] weight-500'>⭐ 4.47</p>
-                                            </div>
-                                            <p className='text-[0.875rem] text-[#404040] weight-500'>
-                                                믿고 먹을 수 있는 깻잎을 합리적인 가격에!
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] text-end weight-500">남산채소</p>
-                                    <p className="text-[1.05rem] weight-800">1,490원</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center'>
-                                        <img src="/images/localIngredientsThumbs/vegetableThumbs/vegetable_1.png"
-                                             className="w-[9rem] h-[8.125rem] rounded-[0.875rem]"/>
-                                    </div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex items-center gap-3 pt-[8px]'>
-                                                <p className="weight-700 text-[1.2rem]">깻잎 30g</p>
-                                                <p className='text-[0.9rem] weight-500'>⭐ 4.47</p>
-                                            </div>
-                                            <p className='text-[0.875rem] text-[#404040] weight-500'>
-                                                믿고 먹을 수 있는 깻잎을 합리적인 가격에!
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] text-end weight-500">남산채소</p>
-                                    <p className="text-[1.05rem] weight-800">1,490원</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                        </div>
-                        <div>
-                            <div className='flex justify-between w-full gap-2 cursor-pointer px-[0.9375rem]'>
-                                <div className='flex gap-7'>
-                                    <div className='flex flex-col justify-center'>
-                                        <img src="/images/localIngredientsThumbs/vegetableThumbs/vegetable_1.png"
-                                             className="w-[9rem] h-[8.125rem] rounded-[0.875rem]"/>
-                                    </div>
-                                    <div className='flex justify-start w-auto'>
-                                        <div className='flex flex-col'>
-                                            <div className='flex items-center gap-3 pt-[8px]'>
-                                                <p className="weight-700 text-[1.2rem]">깻잎 30g</p>
-                                                <p className='text-[0.9rem] weight-500'>⭐ 4.47</p>
-                                            </div>
-                                            <p className='text-[0.875rem] text-[#404040] weight-500'>
-                                                믿고 먹을 수 있는 깻잎을 합리적인 가격에!
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='flex flex-col justify-end'>
-                                    <p className="text-[0.9rem] text-[#404040] text-end weight-500">남산채소</p>
-                                    <p className="text-[1.05rem] weight-800">1,490원</p>
-                                </div>
-                            </div>
-                            <div className='flex flex-col justify-center py-[1.375rem]'>
-                                <hr/>
-                            </div>
-                        </div>
+                            ))
+                        ) : (
+                            <div className="flex flex-col items-center p-10">지역 재료 데이터가 없습니다.</div>
+                        )}
 
                         <div className='flex justify-center gap-2 cursor-pointer'>
-                            <p className='text-[1rem] weight-600'>1</p>
-                            <p className='text-[1rem] text-[#6C6C6C] hover:text-black'>2</p>
-                            <p className='text-[1rem] text-[#6C6C6C] hover:text-black'>3</p>
+                            {Array.from({length: data.totalPages}).map((_, index) => (
+                                <p key={index}
+                                   className={`text-[1rem] ${page === index ? 'weight-600' : 'text-[#6C6C6C] hover:text-black'}`}
+                                   onClick={() => handlePageClick(index)}
+                                >
+                                    {index + 1}
+                                </p>
+                            ))}
                         </div>
                     </div>
                 </div>
