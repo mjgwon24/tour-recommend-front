@@ -90,7 +90,7 @@ export default function campingDetailPage() {
     const handleReservationRequest = async () => {
         try {
             const response = await axios.post(
-                `http://localhost:8081/reservation/campsites/${campingId}/reservations`, null, {
+                `http://localhost:8081/reservation/campsites/${campingId}`, null, {
                     params: {
                         checkInDate: formatDate(checkinDateRef.current),
                         checkOutDate: formatDate(checkoutDateRef.current),

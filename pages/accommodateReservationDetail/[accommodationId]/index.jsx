@@ -94,7 +94,7 @@ export default function AccommodateReservationDetailPage() {
     const handleReservationRequest = async () => {
         try {
             const response = await axios.post(
-                `http://localhost:8081/reservation/accommodations/${accommodationId}/reservations`, null, {
+                `http://localhost:8081/reservation/accommodations/${accommodationId}`, null, {
                     params: {
                         checkInDate: formatDate(checkinDateRef.current),
                         checkOutDate: formatDate(checkoutDateRef.current),
