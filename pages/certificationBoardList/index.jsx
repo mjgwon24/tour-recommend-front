@@ -105,7 +105,7 @@ export default function certificationBoardListPage() {
                                         cursor-pointer
                                         ${
                                             selectedCategory=="ACCOMMODATION_VISIT"?
-                                            "text-[#F18304] border-[#F18304]":
+                                            "text-[#F18304] border-[#F18304] bg-[#FFEECE]":
                                             "text-[#6C6C6C] hover:text-[#F18304] hover:border-[#F18304] border-[#6C6C6C]"
                                         }`}
                                         onClick={()=>{setSelectedCategory("ACCOMMODATION_VISIT")}}>숙소 방문 인증
@@ -125,7 +125,7 @@ export default function certificationBoardListPage() {
                                         cursor-pointer
                                         ${
                                             selectedCategory=="WASTE_DISPOSAL"?
-                                            "text-[#F18304] border-[#F18304]":
+                                            "text-[#F18304] border-[#F18304] bg-[#FFEECE]":
                                             "text-[#6C6C6C] hover:text-[#F18304] hover:border-[#F18304] border-[#6C6C6C]"
                                         }`}
                                         onClick={()=>{setSelectedCategory("WASTE_DISPOSAL")}}>쓰레기 처리 인증
