@@ -55,7 +55,7 @@ import React, { useState } from 'react';
                             <div className='flex justify-end pb-8'>
                                 <div
                                     className='border-2 border-solid border-[#000] rounded-lg text-[#000] py-1 px-4 cursor-pointer'
-                                    onClick={() => router.push('/certificationBoard')}>글작성
+                                    onClick={() => router.push('/quoteTalk')}>글작성
                                 </div>
                             </div>
 
