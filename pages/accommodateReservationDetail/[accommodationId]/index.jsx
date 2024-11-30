@@ -19,6 +19,9 @@ export default function AccommodateReservationDetailPage() {
     const [checkoutDate, setCheckoutDate] = useState(new Date());
     const [totalPrice, setTotalPrice] = useState(0);
     const [availableRooms, setAvailableRooms] = useState(0);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [email, setEmail] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     // 최신 상태 관리용 Ref
     const checkinDateRef = useRef(checkinDate);
@@ -37,6 +40,16 @@ export default function AccommodateReservationDetailPage() {
     // 날짜 형식 변환
     const formatDate = (date) => {
         return date.toLocaleDateString('en-CA');
+    }
+
+    // 입력값 유효성 검증
+    const validateInputs = () => {
+        if (!phoneNumber || !email) {
+            setErrorMessage("전화번호와 이메일을 모두 입력해주세요.");
+            return false;
+        }
+        setErrorMessage("");
+        return true;
     }
 
     /**
@@ -74,6 +87,27 @@ export default function AccommodateReservationDetailPage() {
             setAvailableRooms(response.data.data);
         } catch (error) {
             console.error("남은 방 수 조회 오류:", error);
+        }
+    }
+
+    // 예약 API 호출
+    const handleReservationRequest = async () => {
+        try {
+            const response = await axios.post(
+                `http://localhost:8081/reservation/accommodations/${accommodationId}/reservations`, null, {
+                    params: {
+                        checkInDate: formatDate(checkinDateRef.current),
+                        checkOutDate: formatDate(checkoutDateRef.current),
+                        phoneNumber: phoneNumber,
+                        totalPrice: totalPrice
+                    }
+                }
+            );
+            alert("숙소 예약이 완료되었습니다.  예약 현황을 조회하고 싶으신 경우, 예약 조회 메뉴에서 확인해주세요!");
+            setModal(false);
+        } catch (error) {
+            console.error("예약 요청 오류:", error);
+            alert("예약 요청에 실패했습니다.");
         }
     }
 
@@ -139,6 +173,13 @@ export default function AccommodateReservationDetailPage() {
         setCheckoutDate(resetTime(date));
     };
 
+    // 제출 입력 폼 유효성 검증
+    const handleSubmit = () => {
+        if (validateInputs()) {
+            handleReservationRequest();
+        }
+    }
+
     // 예약 신청 토글 함수
     const toggleModal = () => {
         setModal(!openModal);
@@ -152,25 +193,37 @@ export default function AccommodateReservationDetailPage() {
                         className='w-[40rem] h-[30rem] bg-white shadow-lg border border-black rounded-[0.875rem]
                         flex flex-col items-center justify-center gap-6 px-[10.421875rem] pb-8'
                         onClick={(e) => e.stopPropagation()}>
-                        <p className="weight-700 text-[1.375rem]">숙소 예약</p>
+                        <div className="flex flex-col items-center justify-center gap-1">
+                            <p className="weight-700 text-[1.375rem]">숙소 예약</p>
+                            {errorMessage && (
+                                <p className="text-red-500 text-[0.875rem]">{errorMessage}</p>
+                            )}
+                        </div>
 
                         <div className="flex flex-col gap-3 mb-8">
                             <div className="flex flex-col">
                                 <label className="text-[1rem] weight-700 pb-1">전화번호</label>
                                 <input type="text"
                                        className="rounded-[0.7rem] w-[21.4878125rem] h-[2.8rem] bg-[#F1F1F1] px-[1.205rem]"
-                                       placeholder="전화번호를 입력해주세요"></input>
+                                       placeholder="전화번호를 입력해주세요"
+                                       value={phoneNumber}
+                                       onChange={(e) => setPhoneNumber(e.target.value)}
+                                ></input>
                             </div>
                             <div className="flex flex-col">
                                 <label className="text-[1rem] weight-700 pb-1">이메일</label>
                                 <input type="text"
                                        className="rounded-[0.7rem] w-[21.4878125rem] h-[2.8rem] bg-[#F1F1F1] px-[1.205rem]"
-                                       placeholder="이메일을 입력해주세요"></input>
+                                       placeholder="이메일을 입력해주세요"
+                                       value={email}
+                                       onChange={(e) => setEmail(e.target.value)}
+                                ></input>
                             </div>
                         </div>
 
                         <button
-                            className="rounded-[0.5rem] weight-700 px-[7rem] py-[0.8rem] bg-[#FFA500] text-[1rem] text-[white]">
+                            className="rounded-[0.5rem] weight-700 px-[7rem] py-[0.8rem] bg-[#FFA500] text-[1rem] text-[white]"
+                            onClick={handleSubmit}>
                             예약요청
                         </button>
                     </div>
