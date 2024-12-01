@@ -1,8 +1,18 @@
 import {useRouter} from "next/router";
-import React from "react";
+import React, { useState } from "react";
 
 export default function reservationAuthPage() {
     const router = useRouter();
+    
+    const [phoneNumber, setPhoneNumber] = useState("");
+    
+    const onInputPhoneNumber = (event) => {
+        setPhoneNumber(event.target.value);
+    }
+
+    const onClickAuth = () => {
+        router.push(`/reservationStatus?phoneNumber=${phoneNumber}`)
+    }
 
     return (
         <div className="flex flex-col items-center min-h-screen min-w-[76.6rem] bg-[#FFA500]">
@@ -47,12 +57,12 @@ export default function reservationAuthPage() {
 
                     <div className="flex flex-col">
                         <label className="text-[1rem] weight-700 pb-1">전화번호</label>
-                        <input type="text"
+                        <input onInput={onInputPhoneNumber} type="text"
                                className="rounded-[0.7rem] w-[21.4878125rem] h-[2.8rem] bg-[#F1F1F1] px-[1.205rem]"
                                placeholder="전화번호를 입력해주세요"></input>
                     </div>
 
-                    <button
+                    <button onClick={onClickAuth}
                         className="rounded-[0.5rem] weight-700 py-[0.8rem] bg-[#FFA500] text-[1rem] text-[white]">
                         인증하기
                     </button>
