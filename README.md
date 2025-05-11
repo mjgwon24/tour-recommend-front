@@ -30,14 +30,14 @@
 
 ## 🛠️ 기술 스택  
 
--   **Frontend**
+- **Frontend**
    - Next.js
    - React Query
    - Tailwind CSS
--   **협업 및 테스트**
-    -   Git
-    -   Postman
-    -   Figma
+- **협업 및 테스트**
+    - Git
+    - Postman
+    - Figma
 
 ---
 
